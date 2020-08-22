@@ -29,12 +29,13 @@
     "bd": "npm run build&&npm run commit ",
     "npre": "nodemon --watch src --exec 'npm run build:es && echo done'",
     "postinstall": "node ./scripts/postinstall.js",
-    "relink": "npm link @fwrlines/alphabet-scss && npm link @fwrlines/swatch && npm link @fwrlines/utils"
+    "relink": "npm link @fwrlines/ds.core && npm link @fwrlines/alphabet-scss && npm link @fwrlines/swatch && npm link @fwrlines/utils"
   },
   "keywords": [],
   "license": "ISC",
   "dependencies": {
     "@fwrlines/alphabet-scss": "latest",
+    "@fwrlines/ds.core": "^1.0.0",
     "@fwrlines/utils": "latest",
     "compressorjs": "^1.0.6",
     "date-fns": "^2.15.0",

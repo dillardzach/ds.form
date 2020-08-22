@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import {
   Label
-} from '@fwrlines/ds/common'
+} from 'core'
 
 /* Config
    import C from 'ui/cssClasses' */

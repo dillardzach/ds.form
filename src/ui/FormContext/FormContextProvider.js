@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useEffect, useState, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
-import { usePage } from '@fwrlines/ds/site'
+import { usePage } from 'core'
 
 import FormContext from './FormContext'
 import ga from 'react-ga'

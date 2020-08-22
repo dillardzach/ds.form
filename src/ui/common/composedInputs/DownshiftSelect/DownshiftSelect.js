@@ -6,9 +6,7 @@ import PropTypes from 'prop-types'
 
 import { useSelect } from 'downshift'
 
-import { Popup } from '@fwrlines/ds/common'
-
-import { Button } from '@fwrlines/ds/elements'
+import { Popup, Button } from 'core'
 
 import { InputHolder as Holder } from '../../elements'
 

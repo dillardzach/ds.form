@@ -4,9 +4,8 @@ import * as React from 'react'
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { Figure } from '@fwrlines/ds/common'
 
-import { SnapSlider } from '@fwrlines/ds/elements'
+import { Figure, SnapSlider } from 'core'
 
 import { useDropzone } from 'react-dropzone'
 
