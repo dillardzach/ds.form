@@ -1,1 +1,0 @@
-export { GraphQLTester } from './GraphQLTester'
