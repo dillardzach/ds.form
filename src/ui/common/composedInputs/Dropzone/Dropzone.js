@@ -5,7 +5,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 
-import { Figure, SnapSlider } from 'core'
+import { Figure, SnapSlider } from 'ds-core'
 
 import { useDropzone } from 'react-dropzone'
 
