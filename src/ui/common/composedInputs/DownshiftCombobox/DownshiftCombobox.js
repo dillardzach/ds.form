@@ -8,7 +8,7 @@ import { BaseHTMLInput } from '../../baseInputs'
 
 import C from 'ui/cssClasses'
 
-import { Popup, InlineLoader, Button } from 'core'
+import { Popup, InlineLoader, Button } from 'ds-core'
 
 import {
   InputInside,
