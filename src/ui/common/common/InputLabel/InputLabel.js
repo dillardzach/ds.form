@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import {
   Label
-} from 'core'
+} from 'ds-core'
 
 /* Config
    import C from 'ui/cssClasses' */

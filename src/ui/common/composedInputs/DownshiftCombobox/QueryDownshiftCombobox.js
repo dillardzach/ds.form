@@ -8,7 +8,7 @@ import DownshiftCombobox from './DownshiftCombobox.js'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
 
-import { InlineLoader } from 'core'
+import { InlineLoader } from 'ds-core'
 
 //Intl
 
