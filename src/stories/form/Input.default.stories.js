@@ -30,9 +30,6 @@ export default {
       storyfn => <FormContextProvider
         initialValues={{
 
-          contact_email:'john.johnson@gmail.com',
-          password     :'kwak',
-          openquestion :'April is the cruellest month, breeding licacs out the dead land,'
         }}
                  >
         { storyfn() }

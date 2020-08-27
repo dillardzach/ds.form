@@ -10,7 +10,7 @@ import {
   RadioCircle,
   RadioCross,
   RadioDot
-} from 'ui/form/common/baseInputs/BaseSVGChoice/common/'
+} from 'ui/common/baseInputs/BaseSVGChoice/common/'
 /* import QUERY from './graphql/query.graphql'
    import { AplProvider } from 'stories/utils'
    import { Router } from 'stories/utils'

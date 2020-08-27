@@ -3,7 +3,8 @@ import React from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
-import { Heading, QueryDownshiftCombobox, DownshiftCombobox, FormContextProvider } from 'ui'
+import { Heading } from 'core'
+import { QueryDownshiftCombobox, DownshiftCombobox, FormContextProvider } from 'ui'
 import { AplProvider } from 'stories/utils'
 import QUERY from './graphql/allFruits.graphql'
 /*

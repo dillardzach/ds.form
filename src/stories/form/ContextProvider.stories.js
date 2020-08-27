@@ -3,8 +3,11 @@ import * as React from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
+import { 
+  Heading
+} from 'core'
+
 import {
-  Heading,
   FormContextProvider as ContextProvider,
   FormInput,
   FormContextDebugger

@@ -28,7 +28,8 @@ module.exports = function (api) {
     ['module-resolver', {
       root :['./src'],
       alias:{
-        '@fwrlines/ds':'./src/ui'
+        'core'   :'@fwrlines/ds.core',
+        'ds-core':'@fwrlines/ds.core'
       }
     }],
     '@babel/plugin-proposal-class-properties',
