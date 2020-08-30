@@ -276,6 +276,7 @@ export const Colors = () => (
           id   :'debu'+3*i
         }
       ]}
+      key={i}
       multiple
     //disabled
     />

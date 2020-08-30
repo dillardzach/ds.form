@@ -73,7 +73,7 @@ export const Placeholder = () => (
     placeholder='a safe password, not 12345'
     name={ 'password' }
     label='Your password'
-    inputId='pwd'
+    inputId={'pwd'}
     description='Please make sure your password is strong enough'
   />
 )
@@ -83,7 +83,7 @@ export const Type = () => (
     type='textarea'
     name={ 'openquestion' }
     label='Your story'
-    inputId='story'
+    inputId={'story'}
   />
 )
 

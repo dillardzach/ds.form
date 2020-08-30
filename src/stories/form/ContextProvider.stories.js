@@ -3,7 +3,7 @@ import * as React from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
-import { 
+import {
   Heading
 } from 'core'
 
@@ -79,6 +79,7 @@ export const Default = () => (
         label='planet name'
         description='please enter here the name of the planet'
         inputId='planet_name'
+        key='planet_name'
       />
       <FormInput
         context={ context }
@@ -88,6 +89,7 @@ export const Default = () => (
         label='your story'
         description='please enter here your story'
         inputId='story'
+        key='story'
       />
       <FormInput
         context={ context }
@@ -96,8 +98,10 @@ export const Default = () => (
         label='Subscribe'
         description='Subscribe to then ewsletter'
         inputId='subscribe'
+        key='subscribe'
       />
       <FormInput
+        key='composer'
         context={ context }
         compact
         type='checkboxes' //checkboxes
@@ -130,6 +134,7 @@ export const Default = () => (
         inputId='compo'
       />
       <FormInput
+        key='britpop2'
         context={ context }
         type='svg-checkboxes' //checkboxes
         name='britpop2'
@@ -161,6 +166,7 @@ export const Default = () => (
         inputId='compo2'
       />
       <FormInput
+        key='fellini'
         context={ context }
         type='card-checkboxes' //checkboxes
         name='fellini'
@@ -190,6 +196,7 @@ export const Default = () => (
         inputId='compo2'
       />
       <FormInput
+        key='coolors'
         context={ context }
         type='select' //checkboxes
         name='coolors'
@@ -215,6 +222,7 @@ export const Default = () => (
         inputId='compo2'
       />
       <FormInput
+        key='dscs'
         context={ context }
         type='downshift-select' //checkboxes
         name='dscs'
@@ -247,6 +255,7 @@ export const Default = () => (
         buttonChildren={ 'Select your favourite color' }
       />
       <FormInput
+        key='favourite-color'
         context={ context }
         type='downshift-combobox' //radios
         name='favourite-color'
@@ -278,6 +287,7 @@ export const Default = () => (
         inputId='colorchoicer2'
       />
       <FormInput
+        key='favourite-fruit'
         context={ context }
         query={ QUERY }
         type='query-downshift-combobox'
@@ -303,6 +313,7 @@ export const Default = () => (
         //debug
       />
       <FormInput
+        key='illustration'
         context={ context }
         type='image-dropzone'
         name='illustration'

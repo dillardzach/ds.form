@@ -6,26 +6,26 @@ import faker from 'faker'
 //import { action } from '@storybook/addon-actions'
 
 import { Dropzone } from 'ui'
-//import QUERY from './graphql/query.graphql'
-//import { AplProvider } from 'stories/utils'
-//import { Router } from 'stories/utils'
-//import {ALL_COLORS, SIZES } from 'stories/config.js'
-//import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from 'stories/utils/Dummy'
+/* import QUERY from './graphql/query.graphql'
+   import { AplProvider } from 'stories/utils'
+   import { Router } from 'stories/utils'
+   import {ALL_COLORS, SIZES } from 'stories/config.js'
+   import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from 'stories/utils/Dummy' */
 
 //const endpoint = 'https://api.fwrlines.com/graphql'
 
 export default {
-  title: 'form/common/composedInputs/Dropzone',
-  component:Dropzone,
+  title        :'form/common/composedInputs/Dropzone',
+  component    :Dropzone,
   //componentSubtitle:'Component subtitle',
-  subcomponents: {
+  subcomponents:{
     //Item:Dropzone.Item
   },
-  parameters: {
-    decorators: [ 
-      //storyfn => <div className="">{ storyfn() }</div>,
-      //storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
-      //storyfn => <Router>{ storyfn() }</Router>,
+  parameters:{
+    decorators:[
+      /* storyfn => <div className="">{ storyfn() }</div>,
+         storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
+         storyfn => <Router>{ storyfn() }</Router>, */
     ]
   }
 }
@@ -43,13 +43,21 @@ const storyParameters = {
  */
 
 export const Default = () => (
-  <Dropzone></Dropzone> 
+  <Dropzone
+    name='dropzone'
+    inputId='dropzone'
+  >
+  </Dropzone>
 )
 
 //Default.parameters = storyParameters
 
 export const Variant = () => (
-    <Dropzone></Dropzone> 
+  <Dropzone
+    name='dropzone'
+    inputId='dropzone'
+  >
+  </Dropzone>
 )
 
 //Variant.parameters = storyParameters
