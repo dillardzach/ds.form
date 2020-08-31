@@ -262,7 +262,7 @@ const DownshiftSelect = ({
               preferredOrder={ popupPreferredOrder }
               style={ popupStyle }
             >
-              <ul {...getMenuProps()}>
+              <ul {...getMenuProps()} className='compact'>
                 {
                   items.map((item, index) => (
                     <li
