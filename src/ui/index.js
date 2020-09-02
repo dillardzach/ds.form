@@ -9,6 +9,11 @@ export { FormInput } from './FormInput'
 
 export * from './common' //simpler
 
+export {
+  useFormState,
+  useFormInput
+} from './utils'
+
 /*
 export {
   Input,

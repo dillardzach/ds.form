@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import {
   useFormInput
-} from '@fwrlines/utils'
+} from 'ui/utils'
 
 import {
   Checkbox,
@@ -147,17 +147,17 @@ const FormInput = ({
       ...passedProps
     })
   )
-  
+
   else if ( type == 'dropzone' ) return(
     displayComponent(Dropzone, {
       ...passedProps
     })
   )
-  
+
   else if ( type == 'image-dropzone' ) return(
     displayComponent(Dropzone, {
       imageUploader:true,
-      accept  :'image/jpeg, image/png',
+      accept       :'image/jpeg, image/png',
       ...passedProps
     })
   )
