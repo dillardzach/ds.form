@@ -3,7 +3,7 @@ import * as React from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
-import { 
+import {
   Heading
 } from 'core'
 
@@ -41,15 +41,13 @@ export default {
 
 const context = React.createContext()
 
-export const Default = () => (
+export const ExampleInputs = () => (
   <div className='s-1 k-s'>
     <ContextProvider
       context={ context }
       initialValues={{
         'planet_name':'jupyter',
         'story'      :'april is the cruellest month, breeding, lilacs out of the dead land, mixing, memory and desire',
-        'fellini'    :new Set(['saty', 'otto']),
-        'dscs'       :'magenta'
       }}
       validation={{
         _all:(f) => {
@@ -97,6 +95,32 @@ export const Default = () => (
         description='Subscribe to then ewsletter'
         inputId='subscribe'
       />
+
+
+      <FormInput
+        context={ context }
+        type='image-dropzone'
+        name='illustration'
+        label='Please select an illustration'
+        description='Drag and drop a file on the square'
+        inputId='illustration'
+      />
+      <FormContextDebugger context={ context }/>
+    </ContextProvider>
+  </div>
+)
+
+
+export const ExampleChoices = () => (
+  <div className='s-1 k-s'>
+    <ContextProvider
+      context={ context }
+      initialValues={{
+        'fellini':new Set(['saty', 'otto']),
+        'dscs'   :'magenta'
+      }}
+
+    >
       <FormInput
         context={ context }
         compact
@@ -302,20 +326,8 @@ export const Default = () => (
         filterItems={ (items, value) => items.filter(e => e.name.match(new RegExp(value, 'gi'))) }
         //debug
       />
-      <FormInput
-        context={ context }
-        type='image-dropzone'
-        name='illustration'
-        label='Please select an illustration'
-        description='Drag and drop a file on the square'
-        inputId='illustration'
-      />
+
       <FormContextDebugger context={ context }/>
     </ContextProvider>
   </div>
 )
-
-export const Variant = () => (
-  <ContextProvider></ContextProvider>
-)
-
