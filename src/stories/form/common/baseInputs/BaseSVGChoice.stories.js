@@ -302,6 +302,7 @@ export const VariantCheck = () => (
 export const Colors = () => (
   ALL_COLORS.map((e,i) =>
     <BaseSVGChoice
+      key={i}
       name='composer'
       className={ 'y-' + e.toLowerCase() }
       options={[
