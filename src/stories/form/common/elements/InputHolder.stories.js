@@ -70,10 +70,7 @@ export const All = () => {
   }
 
   return (
-    <InputHolder
-      inputId={'inputHolder'}
-      { ...all_props}
-    >
+    <InputHolder { ...all_props}>
       the input goes here
     </InputHolder>
   )

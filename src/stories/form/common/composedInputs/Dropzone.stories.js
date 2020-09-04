@@ -43,21 +43,13 @@ const storyParameters = {
  */
 
 export const Default = () => (
-  <Dropzone
-    name='dropzone'
-    inputId='dropzone'
-  >
-  </Dropzone>
+  <Dropzone></Dropzone>
 )
 
 //Default.parameters = storyParameters
 
 export const Variant = () => (
-  <Dropzone
-    name='dropzone'
-    inputId='dropzone'
-  >
-  </Dropzone>
+  <Dropzone></Dropzone>
 )
 
 //Variant.parameters = storyParameters
