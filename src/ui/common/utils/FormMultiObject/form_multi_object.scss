@@ -1,0 +1,36 @@
+/* @fwrlines/generator-react-component 2.4.1 */
+/*
+
+Classes :
+.form_multi_object : default
+
+*/
+
+.form_multi_object{
+  .form-container {
+    padding:calc(var(--u, 1) * 1em) calc(var(--u, 1) * .5em);
+
+    & + .form-container { 
+      border-top:1px solid var(--metadata);
+    }
+    
+    @media (max-width: 899px) {
+
+    }
+
+    @media (min-width: 900px) {
+      display:grid;
+      grid-template-columns:[info] minmax(200px, 350px) [form] auto;
+
+      .info {
+        grid-column: info / span 1;
+      }
+      .object-form {
+        grid-column: form / span 1;
+      }
+
+    }
+
+  }
+
+}

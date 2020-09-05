@@ -156,6 +156,11 @@ const Input = ({
     <InputHolder
       { ...holderProps }
     >
+      { (type === 'hidden') ? 
+        <BaseHTMLInput
+          { ...inputProps }
+        />
+      :
       <InputInside
         { ...insideContainerProps }
       >
@@ -163,6 +168,7 @@ const Input = ({
           { ...inputProps }
         />
       </InputInside>
+      }
     </InputHolder>
   )}
 

@@ -44,7 +44,8 @@ const AcceptedHTMLInputTypes = [
   'date',
   'datetime',
   'month',
-  'tel'
+  'tel',
+  'hidden'
 ]
 
 /**
@@ -54,13 +55,14 @@ const AcceptedHTMLInputTypes = [
  * Needs to be wrapped in FormContextProvider
  */
 const FormInput = ({
+  cleanup,
   context,
   type,
   name,
   ...allProps
 }) => {
 
-  const inputProps = useFormInput(name, context)
+  const inputProps = useFormInput(name, context, cleanup)
 
   //console.warn('IP', inputProps)
 
@@ -166,6 +168,11 @@ const FormInput = ({
 
 FormInput.propTypes = {
   /**
+   * Whether the input cleans up the form state after unmount (disable if you want to keep the form state even if the form input is not displayed anymore)
+   */
+  cleanup:PropTypes.bool,
+
+  /**
    * A react context object to instantiate the provider
    */
   context:PropTypes.object,
@@ -199,6 +206,7 @@ FormInput.propTypes = {
 }
 
 FormInput.defaultProps = {
+  cleanup  :true,
   context  :FormContext,
   aesthetic:formConfig.defaultAesthetic,
   type     :'text',

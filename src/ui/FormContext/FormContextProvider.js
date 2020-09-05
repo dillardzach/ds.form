@@ -33,7 +33,10 @@ const FormContextProvider = ({
   useGa,
   gaCategory,
 
-  validationDebounceMs
+  validationDebounceMs,
+
+  useObjects,
+  objectsIdField
 }) => {
 
   const { id:pageId } = usePage()
@@ -45,6 +48,8 @@ const FormContextProvider = ({
     parsers,
     validation,
     debounceMs:validationDebounceMs,
+    useObjects,
+    objectsIdField
   })
 
   const [sentEvents, setSentEvents] = useState([])
@@ -133,7 +138,17 @@ FormContextProvider.propTypes = {
   /**
    * Parsers : A dict of function that parses the input value to the parsed state, The keys are the input names
    */
-  parsers:PropTypes.object
+  parsers:PropTypes.object,
+
+  /**
+   * Whether the form is initialized to parse objects
+   */
+  useObjects:PropTypes.bool,
+
+  /**
+   * The id field looked up in the form management of the objects
+   */
+  objectsIdField:PropTypes.string,
 
   /*
   : PropTypes.shape({
@@ -148,8 +163,9 @@ FormContextProvider.propTypes = {
 }
 
 FormContextProvider.defaultProps = {
-  context:FormContext,
-  useGa  :false
+  context   :FormContext,
+  useGa     :false,
+  useObjects:false
   /* height:'2.2em',
      as:'p', */
 }

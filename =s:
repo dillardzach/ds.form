@@ -2,15 +2,13 @@
 import * as React from 'react'
 
 //import { action } from '@storybook/addon-actions'
-import {
-  Button,
-  Heading
-} from 'ds-core'
 
+import {
+  Heading
+} from 'core'
 
 import {
   FormMultiObject,
-  FormQueryMultiObject,
   FormContextProvider as ContextProvider,
   FormInput,
   FormContextDebugger
@@ -339,144 +337,72 @@ export const MultiObjectForm = () => {
 
   const inputMap = [
     {
-      //context,
-      name       :'planet_name',
-      type       :'text',
+      context
+      name:'planet_name',
+      type:'text',
       placeholder:'placeholder',
-      label      :'planet name',
+      label:'planet name',
       description:'please enter here the name of the planet',
-      inputId    :'planet_name',
+      inputId:'planet_name',
     },
     {
-      //context,
-      name       :'story',
-      type       :'textarea',
+      context
+      name:'story',
+      type:'textarea',
       placeholder:'placeholder',
-      label      :'Plan history',
+      label:'Plan history',
       description:'please enter here the history of the planet',
-      inputId    :'story',
+      inputId:'story',
     },{
-      //context,
-      type       :'checkbox',
-      name       :'water_presence',
-      label      :'Has water',
+      context
+      type:'checkbox',
+      name:{ 'water_presence' },
+      label:'Has water',
       description:'Has this planet water to sustain life ?',
-      inputId    :'water_presence',
+      inputId:'water_presence',
 
     },{
-      //context,
-      type       :'image-dropzone',
-      name       :'illustration',
-      label      :'Please select an illustration',
+      context
+      type:'image-dropzone',
+      name:'illustration',
+      label:'Please select an illustration',
       description:'Drag and drop a file on the square',
-      inputId    :'illustration',
+      inputId:'illustration',
     },
   ]
-
   return(
-    <div className='s-2 k-s'>
-      <ContextProvider
-        //context={ context }
-        initialValues={{
-          'planet_name':'jupyter',
-          'story'      :'april is the cruellest month, breeding, lilacs out of the dead land, mixing, memory and desire',
-        }}
-        validation={{
-          _all:(f) => {
-            const c1 = [
-              f.planet_name === 'mars',
-              'The planet cannot be mars'
-            ]
-            const c2 = [
-              f.planet_name === 'venus',
-              'The planet cannot be venus'
-            ]
-            const errors = [c1, c2].reduce((a, e) => {
-              e[0] && a.push(e[1])
-              return a
-            }, [] )
-            return errors.length ? errors : false
-          },
-          planet_name:(v) => (v === 'earth') && ['cannot be earth', 'this doenst include the z letter'],
-          story      :(v) => (v.length <= 6) && 'The story is not long enough'
-        }}
-        useObjects
+  <div className='s-1 k-s'>
+    <ContextProvider
+      context={ context }
+      initialValues={{
+        'planet_name':'jupyter',
+        'story'      :'april is the cruellest month, breeding, lilacs out of the dead land, mixing, memory and desire',
+      }}
+      validation={{
+        _all:(f) => {
+          const c1 = [
+            f.planet_name === 'mars',
+            'The planet cannot be mars'
+          ]
+          const c2 = [
+            f.planet_name === 'venus',
+            'The planet cannot be venus'
+          ]
+          const errors = [c1, c2].reduce((a, e) => {
+            e[0] && a.push(e[1])
+            return a
+          }, [] )
+          return errors.length ? errors : false
+        },
+        planet_name:(v) => (v === 'earth') && ['cannot be earth', 'this doenst include the z letter'],
+        story      :(v) => (v.length <= 6) && 'The story is not long enough'
+      }}
+    >
+      <FormMultiObject
+        inputMap={ inputMap }
       >
-        <FormMultiObject
-          inputMap={ inputMap }
-        >
-        </FormMultiObject>
-        <FormContextDebugger/>
-      </ContextProvider>
-    </div>
-  )}
-export const MultiObjectFormQuery = () => {
-
-  const inputMap = [
-    {
-      //context,
-      name       :'id',
-      type       :'text',
-      placeholder:'placeholder',
-      label      :'id',
-      description:'',
-      inputId    :'id',
-    },
-    {
-      //context,
-      name       :'name',
-      type       :'text',
-      placeholder:'placeholder',
-      label      :'name',
-      description:'',
-      inputId    :'story',
-    },{
-      //context,
-      type       :'checkbox',
-      name       :'edible',
-      label      :'edible',
-      description:'',
-      inputId    :'edible',
-
-    },{
-      //context,
-      type       :'text',
-      name       :'taste',
-      label      :'Please select an illustration',
-      description:'',
-      inputId    :'taste',
-    },
-  ]
-
-  return(
-    <div className='s-2 k-s'>
-      <ContextProvider
-        useObjects
-      >
-        <FormQueryMultiObject
-          inputMap={ inputMap }
-          maxExtra={ 3 }
-          query={ QUERY }
-          ObjectActions={({objectId}) => [
-            <Button
-              className='x-red'
-              key='1'
-            >
-              Delete
-              {' '}
-              { objectId && objectId.split('-')[0] }
-            </Button>,
-            <Button
-              className='x-grey'
-              key='2'
-            >
-              Unlink
-            </Button>
-          ]}
-        >
-        </FormQueryMultiObject>
-        <FormContextDebugger/>
-      </ContextProvider>
-    </div>
-  )}
-
+      </FormMultiObject>
+      <FormContextDebugger context={ context }/>
+    </ContextProvider>
+  </div>
+)}
