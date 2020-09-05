@@ -244,7 +244,11 @@ const FormMultiObject = ({
       id={ id }
       style={ style }
     >
-      <h1>{ state.existing.length }</h1>
+      <pre className=''>
+        Number of items : 
+        { state.existing.length }(existing){' + '}
+        { state.extra.length }(extra)
+      </pre>
 
 
       <div>
