@@ -80,6 +80,7 @@ export const ExampleInputs = () => (
         label='planet name'
         description='please enter here the name of the planet'
         inputId='planet_name'
+        key='planet_name'
       />
       <FormInput
         context={ context }
@@ -89,6 +90,7 @@ export const ExampleInputs = () => (
         label='your story'
         description='please enter here your story'
         inputId='story'
+        key='story'
       />
       <FormInput
         context={ context }
@@ -97,6 +99,7 @@ export const ExampleInputs = () => (
         label='Subscribe'
         description='Subscribe to then ewsletter'
         inputId='subscribe'
+        key='subscribe'
       />
 
 
@@ -125,6 +128,7 @@ export const ExampleChoices = () => (
 
     >
       <FormInput
+        key='composer'
         context={ context }
         compact
         type='checkboxes' //checkboxes
@@ -157,6 +161,7 @@ export const ExampleChoices = () => (
         inputId='compo'
       />
       <FormInput
+        key='britpop2'
         context={ context }
         type='svg-checkboxes' //checkboxes
         name='britpop2'
@@ -188,6 +193,7 @@ export const ExampleChoices = () => (
         inputId='compo2'
       />
       <FormInput
+        key='fellini'
         context={ context }
         type='card-checkboxes' //checkboxes
         name='fellini'
@@ -217,6 +223,7 @@ export const ExampleChoices = () => (
         inputId='compo2'
       />
       <FormInput
+        key='coolors'
         context={ context }
         type='select' //checkboxes
         name='coolors'
@@ -242,6 +249,7 @@ export const ExampleChoices = () => (
         inputId='compo2'
       />
       <FormInput
+        key='dscs'
         context={ context }
         type='downshift-select' //checkboxes
         name='dscs'
@@ -274,6 +282,7 @@ export const ExampleChoices = () => (
         buttonChildren={ 'Select your favourite color' }
       />
       <FormInput
+        key='favourite-color'
         context={ context }
         type='downshift-combobox' //radios
         name='favourite-color'
@@ -305,6 +314,7 @@ export const ExampleChoices = () => (
         inputId='colorchoicer2'
       />
       <FormInput
+        key='favourite-fruit'
         context={ context }
         query={ QUERY }
         type='query-downshift-combobox'
@@ -329,8 +339,8 @@ export const ExampleChoices = () => (
         filterItems={ (items, value) => items.filter(e => e.name.match(new RegExp(value, 'gi'))) }
         //debug
       />
-
       <FormContextDebugger context={ context }/>
+
     </ContextProvider>
   </div>
 )
