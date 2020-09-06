@@ -89,7 +89,8 @@ HTMLInput.propTypes = {
     'date',
     'datetime',
     'month',
-    'tel'
+    'tel',
+    'hidden'
   ]),
 
   /**

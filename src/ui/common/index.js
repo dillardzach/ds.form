@@ -35,3 +35,8 @@ export {
   QueryDownshiftCombobox,
   Dropzone
 } from './composedInputs'
+
+export {
+  FormMultiObject,
+  FormQueryMultiObject
+} from './utils'

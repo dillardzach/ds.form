@@ -1,6 +1,12 @@
 import { useReducer, useEffect, useCallback } from 'react'
 import debounce from 'lodash.debounce'
 
+const objectPrefix = `obj-`
+
+const getRandomId = (fieldName) => fieldName.split('__')[0].substring(objectPrefix.length)
+
+//const getObjectId = (s) => s.startsWith('obj-') && s.split('__')[0].split('-')[1]
+
 const reducer = (state, action) => {
   switch (action.type) {
   /* We comment out this base case because we also want input validation
@@ -31,11 +37,35 @@ const reducer = (state, action) => {
         ...action.payload
       }
     }
+  case 'SET_OBJECT_VALUE':
+    return {
+      ...state,
+      objects:{
+        ...state.objects,
+        [action.payload.randomId]:{
+          ...state.objects[action.payload.randomId] || {
+            [action.payload.objectIdField]:state.values[
+              Object.keys(state.parsed).find(e => e.startsWith(`${objectPrefix}${[action.payload.randomId]}__${action.payload.objectIdField}`))
+            ]
+          },
+          ...action.payload.values
+
+        }
+      }
+    }
   case 'MERGE_VALUES':
     return {
       ...state,
       values:{
         ...state.values,
+        ...action.payload
+      }
+    }
+  case 'MERGE_PARSED':
+    return {
+      ...state,
+      parsed:{
+        ...state.parsed,
         ...action.payload
       }
     }
@@ -52,6 +82,64 @@ const reducer = (state, action) => {
       ...state,
       errors:action.payload
     }
+  case 'DESTROY_FIELD':
+    return{
+      ...state,
+      touched:Object.keys(state.touched).reduce((a, e) =>
+      {
+        if (e !== action.payload ) {
+          a[e] = state.touched[e]
+        }
+        return a
+      },
+      {}),
+      values:Object.keys(state.values).reduce((a, e) =>
+      {
+        if (e !== action.payload ) {
+          a[e] = state.values[e]
+        }
+        return a
+      },
+      {}),
+      parsed:Object.keys(state.parsed).reduce((a, e) =>
+      {
+        if (e !== action.payload ) {
+          a[e] = state.parsed[e]
+        }
+        return a
+      },
+      {}),
+      errors:Object.keys(state.errors).reduce((a, e) =>
+      {
+        if (e !== action.payload ) {
+          a[e] = state.errors[e]
+        }
+        return a
+      },
+      {}),
+      objects:state.objects ? (action.payload.split('__').length > 1) ?  (state.objects[getRandomId(action.payload)] && (Object.keys(state.objects[getRandomId(action.payload)]).length > 1)) ? {
+        // Normal Case where we remove only the field
+        ...state.objects,
+        [getRandomId(action.payload)]:{
+          ...Object.keys(state.objects[getRandomId(action.payload)]).reduce((a,e) => {
+            if (e !== action.payload.split('__')[1]) {
+              a[e] = state.objects[getRandomId(action.payload)][e]
+            }
+            return a
+          }
+          ,{})
+        }
+      }
+      
+      : Object.keys(state.objects).reduce((a,e) => {
+          if (e !== getRandomId(action.payload)) {
+            a[e] = state.objects[e]
+          }
+          return a
+        }, {})// If the field removed is the last field we remove all the object 
+        : state.objects  // If the field removed is not part of an object
+        : undefined // If there are no objects
+    }
   default:
     return state
   }
@@ -64,6 +152,8 @@ export default ({
   validation={},
   parsers={},
   debounceMs=300,
+  useObjects=false,
+  objectsIdField='id',
   ...otherProps
 }) => {
 
@@ -74,34 +164,68 @@ export default ({
   },[]
   )
 
-  const [state, dispatch=()=>null] = useReducer(reducer, {
-    values:initialValues,
-    touched:initialTouched,
-    errors:initialErrors,
-    parsed:Object.keys(initialValues).reduce((a, e) => {
-      a[e] = parseValue(initialValues[e])
-      return a
-    }, {})
-  })
-
-  const {
+  const [{
     values,
     touched,
     parsed,
+    objects,
     errors:stateErrors
-  } = state
+  },
+  dispatch=()=>null] = useReducer(reducer, {
+    objects:useObjects ? {} : undefined,
+    values :initialValues,
+    touched:initialTouched,
+    errors :initialErrors,
+    parsed :Object.keys(initialValues).reduce((a, e) => {
+      a[e] = parseValue(initialValues[e])
+      return a
+    }, {}),
+  })
+
+  const setObjectValue = useCallback((fieldName, value) => {
+
+    if(fieldName.startsWith(objectPrefix)) {
+      const randomId = fieldName.split('__')[0].substring(4)
+      const fieldKey = fieldName.split('__')[1]
+
+      dispatch({
+        type   :'SET_OBJECT_VALUE',
+        payload:{
+          randomId,
+          objectIdField:objectsIdField,
+          values       :{
+            [fieldKey]:value },
+        }
+      })
+    }
+  }
+  ,
+  []
+  )
 
   const handleChange = useCallback(fieldName => event => {
     event.persist()
+
+    const value = event.target.value
     dispatch({
-      type:'SET_FIELD_VALUE',
-      payload: { [fieldName]:event.target.value },
+      type   :'SET_FIELD_VALUE',
+      payload:{ [fieldName]: value },
     })
-    debounce(dispatch({
-      type:'SET_PARSED_VALUE',
-      payload:{ [fieldName]:parseValue(event.target.value, fieldName) },
-    }), debounceMs)
+    debounce(() => dispatch({
+      type   :'SET_PARSED_VALUE',
+      payload:{ [fieldName]: parseValue(value, fieldName) },
+    }), debounceMs)()
+
+    if(useObjects) {
+
+      setObjectValue(
+        fieldName,
+        parseValue(value, fieldName.split('__')[1]),
+      )
+    }
+
   }, [debounceMs])
+
 
   const handleToggle = fieldName => event => {
     event.persist()
@@ -112,34 +236,51 @@ export default ({
         valueSet.delete(valueToToggle) : valueSet.add(valueToToggle)
       )
     //console.warn(97777, valueSet, valueToToggle)
+    const newValue = valueSet || new Set([valueToToggle])
 
     dispatch({
-      type:'SET_FIELD_VALUE',
-      payload:{ [fieldName]:valueSet || new Set([valueToToggle]) },
+      type   :'SET_FIELD_VALUE',
+      payload:{ [fieldName]: newValue },
     })
-    debounce(dispatch({
-      type:'SET_PARSED_VALUE',
-      payload:{ [fieldName]:parseValue(valueSet || new Set([valueToToggle]), fieldName) },
-    }), debounceMs)
+    debounce(() => dispatch({
+      type   :'SET_PARSED_VALUE',
+      payload:{ [fieldName]: parseValue(newValue, fieldName) },
+    }), debounceMs)()
+
+    if(useObjects) {
+      debounce(() => setObjectValue(
+        fieldName,
+        parseValue(newValue, fieldName.split('__')[1]),
+      ), debounceMs)()
+    }
   }
+
 
   const handleToggleSingle = fieldName => event => {
     const value = !values[fieldName] //we toggle the previous value
 
     dispatch({
-      type:'SET_FIELD_VALUE',
-      payload:{ [fieldName]:value },
+      type   :'SET_FIELD_VALUE',
+      payload:{ [fieldName]: value },
     })
-    debounce(dispatch({
-      type:'SET_PARSED_VALUE',
-      payload:{ [fieldName]:parseValue(value, fieldName) }
-    }), debounceMs)
+    debounce(() => dispatch({
+      type   :'SET_PARSED_VALUE',
+      payload:{ [fieldName]: parseValue(value, fieldName) }
+    }), debounceMs)()
+
+    if(useObjects) {
+      debounce(() => setObjectValue(
+        fieldName,
+        parseValue(value, fieldName.split('__')[1]),
+      ), debounceMs)()
+    }
   }
+
 
   const handleBlur = useCallback(fieldName => event => {
     dispatch({
-      type:'SET_FIELD_TOUCHED',
-      payload: { [fieldName]:true },
+      type   :'SET_FIELD_TOUCHED',
+      payload:{ [fieldName]: true },
     })
   }, [])
   const handleFocus = handleBlur //atm they're the same but lets leave the api evolve
@@ -149,40 +290,56 @@ export default ({
   const setInputValue = useCallback(fieldName => value => {
     //console.log('SIV', fieldName, value)
     dispatch({
-      type:'SET_FIELD_VALUE',
-      payload:{ [fieldName]:value },
+      type   :'SET_FIELD_VALUE',
+      payload:{ [fieldName]: value },
     })
     dispatch({
-      type:'SET_PARSED_VALUE',
-      payload:{ [fieldName]:parseValue(value, fieldName) }
+      type   :'SET_PARSED_VALUE',
+      payload:{ [fieldName]: parseValue(value, fieldName) }
     })
   },
   [parseValue]
   )
 
+  const destroyField = useCallback(fieldName => () => {
+    dispatch({
+      type   :'DESTROY_FIELD',
+      payload:fieldName
+    })
+  })
+
   const mergeValues = dictToMerge => {
     dispatch({
-      type:'MERGE_VALUES',
-      payload: dictToMerge,
+      type   :'MERGE_VALUES',
+      payload:dictToMerge,
+    })
+    const parsedDictToMerge = Object.keys(dictToMerge).reduce((a, e) => {
+      a[e] = parseValue(dictToMerge[e])
+      return a
+    }, {})
+    dispatch({
+      type   :'MERGE_PARSED',
+      payload:parsedDictToMerge,
     })
   }
 
   const getFieldProps = fieldName => ({
     //Base Api
-    value: state.values[fieldName],
-    touched: state.touched[fieldName],
-    errors: state.touched[fieldName] && state.errors[fieldName],
-    onChange: handleChange(fieldName),
-    onBlur:handleBlur(fieldName),
-    onFocus:handleFocus(fieldName),
+    value   :values[fieldName],
+    touched :touched[fieldName],
+    errors  :touched[fieldName] && stateErrors[fieldName],
+    onChange:handleChange(fieldName),
+    onBlur  :handleBlur(fieldName),
+    onFocus :handleFocus(fieldName),
 
     //Extra Helpers
-    onToggle: handleToggle(fieldName), //for multiple value, replaces onChange
-    onToggleSingle: handleToggleSingle(fieldName), //for multiple value, replaces onChange
+    onToggle      :handleToggle(fieldName), //for multiple value, replaces onChange
+    onToggleSingle:handleToggleSingle(fieldName), //for multiple value, replaces onChange
 
     //Extra Api Control
     setInputTouched:setInputTouched(fieldName),
-    setInputValue:setInputValue(fieldName)
+    setInputValue  :setInputValue(fieldName),
+    destroyInput   :destroyField(fieldName)
   })
 
   /*
@@ -200,7 +357,7 @@ export default ({
 
     Object.keys(validation).forEach(key => {
       if (key !== '_all') {
-        const value = state.values[key]
+        const value = values[key]
         const validate = validation[key]
 
         const localErrors = validate(value)
@@ -211,7 +368,7 @@ export default ({
       }
       else {
         const validate = validation[key]
-        const localErrors = validate(state.values)
+        const localErrors = validate(values)
         if (localErrors) {
           errors[key] = localErrors
         }
@@ -221,14 +378,20 @@ export default ({
     //console.log('Errors will be dispatched', errors)
 
     dispatch({
-      type:'SET_ERRORS',
+      type   :'SET_ERRORS',
       payload:errors
     })
   }, debounceMs),
-  [state.values]
+  [values]
   )
 
   const isValid = Object.keys(stateErrors).length === 0
+
+
+  const getObjectsArray = () =>
+    Object.keys(objects).map(key => objects[key])
+
+
 
   return {
     setInputValue,
@@ -236,6 +399,7 @@ export default ({
     values,
     parsed,
     touched,
+    objects,
     errors:stateErrors,
     getFieldProps,
     isValid,
@@ -243,6 +407,8 @@ export default ({
     handleChange,
     handleBlur,
     handleToggle,
+
+    getObjectsArray,
 
     dispatch, //provides deeper API control
   }

@@ -3,13 +3,11 @@ import * as React from 'react'
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
+import FormMultiObject from './FormMultiObject.js'
 
-import DownshiftCombobox from './DownshiftCombobox.js'
+
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
-
-import { InlineLoader } from 'ds-core'
-
 //Intl
 
 /* import { FormattedMessage} from "react-intl";
@@ -21,24 +19,19 @@ import { InlineLoader } from 'ds-core'
 //import C from 'ui/cssClasses'
 
 /* Relative imports
-   import styles from './query_downshift_combobox.scss' */
-import { isBackend } from 'ui/isBackend'
+   import styles from './form_query_multi_object.scss' */
 
-if(!isBackend) {
-  import('./downshift_combobox.scss')
-}
 
-const baseClassName = 'query'
+//const baseClassName = 'form_query_multi_object'
 
 
 /**
- * Use `QueryDownshiftCombobox` to
+ * Use `FormQueryMultiObject` to
  * Has color `x`
  */
-const QueryDownshiftCombobox = ({
+const FormQueryMultiObject = ({
   id,
   className,
-  style,
 
   query,
 
@@ -50,7 +43,7 @@ const QueryDownshiftCombobox = ({
     error,
     data={},
     refetch
-  } = useQuery(gql(query),
+  } = useQuery(gql(query || 'query { hello }'), //hackish but necessary because on multi form reload it gets stuck
     {
       skip                       :!query,
       notifyOnNetworkStatusChange:true
@@ -61,30 +54,25 @@ const QueryDownshiftCombobox = ({
   }, '')]) || [],
   [data, loading])
 
+  return (
 
-  if (loading) return (
-    <InlineLoader/>
-
-
-  )
-
-  else return (
-    <DownshiftCombobox
-      className={
-        [
-          //styles[baseClassName],
-          baseClassName,
-          className
-        ].filter(e => e).join(' ')
-      }
-      id={ id }
-      style={ style }
-      options={ finalData }
-      { ...otherProps }
-    />
+    <>
+      <FormMultiObject
+        className={
+          [
+            /* styles[baseClassName],
+           baseClassName, */
+            className
+          ].filter(e => e).join(' ')
+        }
+        id={ id }
+        existing={ finalData }
+        { ...otherProps }
+      />
+    </>
   )}
 
-QueryDownshiftCombobox.propTypes = {
+FormQueryMultiObject.propTypes = {
   /**
    * Provide an HTML id to this element
    */
@@ -94,12 +82,6 @@ QueryDownshiftCombobox.propTypes = {
    * The html class names to be provided to this element
    */
   className:PropTypes.string,
-
-  /**
-   * The JSX-Written, css styles to apply to the element.
-   */
-  style:PropTypes.object,
-
 
   /**
    * The `gql`-parsable query
@@ -119,10 +101,10 @@ QueryDownshiftCombobox.propTypes = {
 }
 
 /*
-QueryDownshiftCombobox.defaultProps = {
+FormQueryMultiObject.defaultProps = {
   status: 'neutral',
   //height:'2.2em',
   //as:'p',
 }
 */
-export default QueryDownshiftCombobox
+export default FormQueryMultiObject
