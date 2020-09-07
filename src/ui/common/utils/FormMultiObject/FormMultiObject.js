@@ -126,12 +126,6 @@ const FormMultiObject = ({
     mergeValues,
   } = useForm()
 
-  useEffect(() => {
-    mergeValues({
-      'hidden-field-value':33
-    })
-  },
-  [])
 
   const setExistingObjects = useCallback(objs => {
     dispatch({
@@ -164,7 +158,7 @@ const FormMultiObject = ({
   const removeExtraForm = useCallback(randomId => {
     if(window.confirm('If you have written something in the form please note this object hasnt been saved to the database yet and this data will be lost. Continue and remove this form ?')) {
       dispatch({
-        type:'REMOVE_EXTRA_FORM',
+        type   :'REMOVE_EXTRA_FORM',
         payload:randomId,
       })
 
@@ -245,9 +239,12 @@ const FormMultiObject = ({
       style={ style }
     >
       <pre className=''>
-        Number of items : 
-        { state.existing.length }(existing){' + '}
-        { state.extra.length }(extra)
+        Number of items :
+        { state.existing.length }
+        (existing)
+        {' + '}
+        { state.extra.length }
+        (extra)
       </pre>
 
 
@@ -261,26 +258,48 @@ const FormMultiObject = ({
             <div className='info'>
 
               <div>
-                { e.objectId ?
-                  <span>
-                    <Label circle className='x-blue'>Edit</Label>
-                    {' '}
-                    { e.objectId }
-                  </span>
-                  :
-                  <Label circle className='x-orange'>New</Label>
-                }
-                { debug &&
-                <p>
-                  <strong>FormId :{' '}</strong>
-                  { e._formId }
-                </p>
-                }
+                <span>
+
+                  { debug &&
+                    <Label
+                      basic
+                      className='x-red'
+                    >
+                      formId :
+                      {' '}
+                      { e._formId }
+                    </Label>
+                  }
+                  { e.objectId ?
+                    <>
+                      <Label
+                        circle
+                        className='x-blue'
+                      >
+                        Edit
+                      </Label>
+                      <Label
+                        simple
+                        className='x-blue'
+                      >
+                        { e.objectId }
+                      </Label>
+                    </>
+                    :
+                    <Label
+                      circle
+                      className='x-orange'
+                    >
+                      New
+                    </Label>
+                  }
+                </span>
               </div>
               { !e.objectId &&
                 <div className='s-1 k-s'>
                   <Button.Group independent>
-                    <Button className='x-pink'
+                    <Button
+                      className='x-pink'
                       onClick={ () => removeExtraForm(e._formId) }
                       className='pointer'
                     >
@@ -412,7 +431,7 @@ FormMultiObject.propTypes = {
 }
 
 FormMultiObject.defaultProps = {
-  extra     :3,
+  extra     :2,
   orderField:'order',
   idField   :'id',
   debug     :true
