@@ -333,7 +333,7 @@ const FormMultiObject = ({
         {' + '}
         { state.extra.length }
         (extra)
-        { JSON.stringify(state, null, 2) }
+        {/* JSON.stringify(state, null, 2) */}
       </pre>
 
 
@@ -346,7 +346,7 @@ const FormMultiObject = ({
           >
             <div className='info'>
 
-              {ObjectInfo ?
+              {ObjectInfo ? 
                 <ObjectInfo
                   item={ e.object }
                 >
