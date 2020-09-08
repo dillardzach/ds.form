@@ -350,6 +350,15 @@ export const MultiObjectForm = () => {
   const inputMap = [
     {
       //context,
+      name       :'order',
+      type       :'tel',
+      placeholder:'3',
+      label      :'order',
+      description:'The order in which this object appears',
+      inputId    :'order',
+    },
+    {
+      //context,
       name       :'planet_name',
       type       :'text',
       placeholder:'placeholder',
@@ -423,6 +432,15 @@ export const MultiObjectForm = () => {
 export const MultiObjectFormQuery = () => {
 
   const inputMap = [
+    {
+      //context,
+      name       :'order',
+      type       :'tel',
+      placeholder:'3',
+      label      :'order',
+      description:'The order in which this object appears',
+      inputId    :'order',
+    },
     {
       //context,
       name       :'id',

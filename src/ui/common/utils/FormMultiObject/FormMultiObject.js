@@ -40,7 +40,8 @@ const reducer = (state, action) => {
       extra:[
         ...state.extra,
         {
-          _formId:generateRandomString()
+          _formId:generateRandomString(),
+          order  :-1
         }
       ]
     }
@@ -63,6 +64,29 @@ const reducer = (state, action) => {
     return {
       ...state,
       existing:action.payload,
+    }
+
+  case 'SET_ORDER':
+    return {
+      ...state,
+      existing:state.existing.map(e => {
+        if (e._formId === action.payload.randomId) {
+          return {
+            ...e,
+            order:action.payload.order
+          }
+        }
+        return e
+      }),
+      extra:state.extra.map(e => {
+        if (e._formId === action.payload.randomId) {
+          return {
+            ...e,
+            order:action.payload.order
+          }
+        }
+        return e
+      })
     }
 
   case 'SET_FIELD_VALUE':
@@ -99,6 +123,7 @@ const FormMultiObject = ({
   existing,
 
   ObjectActions,
+  ObjectInfo,
 
   debug,
 }) => {
@@ -110,22 +135,46 @@ const FormMultiObject = ({
   const [state, dispatch=()=>null] = useReducer(reducer, {
     extra:[...Array(extra)].map((e,i) => ({
       _formId:generateRandomString(),
+      order  :-1
     })
 
     ),
     existing:existing ? existing.map((e, i) => ({
       _formId :generateRandomString(),
       objectId:e[idField],
-      order   :e[orderField]
+      order   :e[orderField] || -2,
+      object  :e
     })) : []
   })
+
+  const sortItems = useCallback(orderField ? (a, b) => {
+    if ((a.order < 0) ^ (b.order < 0)) {
+      console.log(a.order, b.order, 'xor')
+      return (a.order > 0) ? -1 : 1
+    }
+    return a.order - b.order
+  } : () => null, [])
+
+  const objects = useMemo(() => {
+    const objectList = [
+      ...state.existing,
+      ...state.extra,
+    ]
+    if (orderField) {
+      return objectList.sort(sortItems)
+    }
+    return objectList
+  }, [state, orderField])
+
 
   const {
     values,
     parsed,
     mergeValues,
+    setInputValue,
   } = useForm()
 
+  const orderInputProps = inputMap.find(e => e.name === orderField)
 
   const setExistingObjects = useCallback(objs => {
     dispatch({
@@ -153,7 +202,7 @@ const FormMultiObject = ({
       })
 
     }
-  })
+  }, [])
 
   const removeExtraForm = useCallback(randomId => {
     if(window.confirm('If you have written something in the form please note this object hasnt been saved to the database yet and this data will be lost. Continue and remove this form ?')) {
@@ -163,7 +212,49 @@ const FormMultiObject = ({
       })
 
     }
-  })
+  }, [])
+
+  const setFormOrder = useCallback((randomId, newOrder) => {
+    dispatch({
+      type   :'SET_ORDER',
+      payload:{
+        randomId,
+        order:newOrder
+      },
+    })
+  }
+  ,[])
+
+  const setOrder = useCallback((randomId, userNewOrder, oldOrder, first=true) => {
+    const newOrder = Number(userNewOrder)
+    const oldItemInNewPosition = objects.find(e => e.order === newOrder)
+
+    console.warn(`New order of ${randomId} from ${oldOrder} to ${newOrder} ${JSON.stringify(oldItemInNewPosition)}`, objects)
+
+    if((newOrder < oldOrder) || !oldOrder) {
+      if (oldItemInNewPosition) {
+        setOrder(oldItemInNewPosition._formId, newOrder - ((first || -1) * - 1), newOrder, false)
+      }
+      //increaseOrderRecursive()
+    } else {
+      if (oldItemInNewPosition) {
+        setOrder(oldItemInNewPosition._formId, newOrder + ((first || -1) * - 1), newOrder, false)
+      }
+    }
+    setFormOrder(randomId, newOrder)
+    const stateKey = `${getObjectPrefix(randomId)}${orderField}`
+    setInputValue(stateKey)(newOrder)
+  }, [objects])
+
+  const onChangeOrder = (e) => {
+    e.persist()
+    const {
+      name,
+      value
+    } = e.target
+    const randomId = name.split('__')[0].substring(4)
+    setOrder(randomId, value, parsed[name])
+  }
 
   useEffect(() => {
     if(existing && existing.length) {
@@ -171,7 +262,8 @@ const FormMultiObject = ({
         return {
           _formId :generateRandomString(),
           objectId:e[idField],
-          order   :e[orderField]
+          object  :e,
+          order   :e[orderField] || -2
         }
       })
 
@@ -191,6 +283,7 @@ const FormMultiObject = ({
     }
 
   }, [existing])
+
 
   const actions = useMemo(() => {
     var actionMap = [];
@@ -219,12 +312,7 @@ const FormMultiObject = ({
   [addExtraForm, removeExtraForm, state.extra] )
 
 
-  const objects = useMemo(() => [
-    ...state.existing,
-    ...state.extra,
 
-
-  ], [state])
 
   return (
     <div
@@ -238,13 +326,14 @@ const FormMultiObject = ({
       id={ id }
       style={ style }
     >
-      <pre className=''>
+      <pre className='s-2 k-s'>
         Number of items :
         { state.existing.length }
         (existing)
         {' + '}
         { state.extra.length }
         (extra)
+        { JSON.stringify(state, null, 2) }
       </pre>
 
 
@@ -253,82 +342,98 @@ const FormMultiObject = ({
           <div
             className='form-container p-u'
             id={ getObjectPrefix(i) }
-            key={i}
+            key={ e._formId }
           >
             <div className='info'>
 
-              <div>
-                <span>
+              {ObjectInfo ?
+                <ObjectInfo
+                  item={ e.object }
+                >
+                </ObjectInfo>
+                :
+                <>
+                  <div>
+                    <span>
 
-                  { debug &&
-                    <Label
-                      basic
-                      className='x-red'
-                    >
-                      formId :
-                      {' '}
-                      { e._formId }
-                    </Label>
+                      { debug &&
+                        <Label
+                          basic
+                          className='x-red'
+                        >
+                          formId :
+                          {' '}
+                          { e._formId }
+                        </Label>
+                      }
+                      { e.objectId ?
+                        <>
+                          <Label
+                            circle
+                            className='x-blue'
+                          >
+                            Edit
+                          </Label>
+                          <Label
+                            simple
+                            className='x-blue'
+                          >
+                            { e.objectId }
+                          </Label>
+                        </>
+                        :
+                        <Label
+                          circle
+                          className='x-orange'
+                        >
+                          New
+                        </Label>
+                      }
+                    </span>
+                  </div>
+                  { !e.objectId &&
+                    <div className='s-1 k-s'>
+                      <Button.Group independent>
+                        <Button
+                          className='x-pink'
+                          onClick={ () => removeExtraForm(e._formId) }
+                          className='pointer'
+                        >
+                          Remove form
+                        </Button>
+                      </Button.Group>
+                    </div>
                   }
-                  { e.objectId ?
-                    <>
-                      <Label
-                        circle
-                        className='x-blue'
-                      >
-                        Edit
-                      </Label>
-                      <Label
-                        simple
-                        className='x-blue'
-                      >
-                        { e.objectId }
-                      </Label>
-                    </>
-                    :
-                    <Label
-                      circle
-                      className='x-orange'
-                    >
-                      New
-                    </Label>
+                  { e.objectId && ObjectActions &&
+                    <div className='s-1 k-s'>
+                      <Button.Group independent>
+                        <ObjectActions
+                          objectId={ e.objectId }
+                        />
+                      </Button.Group>
+                    </div>
                   }
-                </span>
-              </div>
-              { !e.objectId &&
-                <div className='s-1 k-s'>
-                  <Button.Group independent>
-                    <Button
-                      className='x-pink'
-                      onClick={ () => removeExtraForm(e._formId) }
-                      className='pointer'
-                    >
-                      Remove form
-                    </Button>
-                  </Button.Group>
-                </div>
-              }
-              { e.objectId && ObjectActions &&
-                <div className='s-1 k-s'>
-                  <Button.Group independent>
-                    <ObjectActions
-                      objectId={ e.objectId }
-                    />
-                  </Button.Group>
-                </div>
+                </>
               }
             </div>
 
             <div className='object-form'>
-              <FormInput
-                type='select'
-                name={ `${getObjectPrefix(e._formId)}${orderField}` }
-                options={objects.map((e, i) => ({
-                  label:i,
-                  value:i,
-                }))}
-              />
-              { inputMap.filter(e => e.name !== idField).map(({ name, ...inputProps }, j) => (
+              { orderInputProps &&
+                <div className='y-background b-y'>
+                  <FormInput
+                    compact
+                    { ...orderInputProps }
+                    type='select'
+                    name={ `${getObjectPrefix(e._formId)}${orderField}` }
+                    //key={ `${_formId}` }
+                    options={[...objects, ...Array(5)].map((e, i) => ({
+                      label:i,
+                      value:i,
+                    }))}
+                    onChange={ onChangeOrder }
+                  />
+                </div>}
+              { inputMap.filter(e => ![idField, orderField].includes(e.name)).map(({ name, ...inputProps }, j) => (
                 <FormInput
                   compact
                   key={ j }
@@ -418,6 +523,11 @@ FormMultiObject.propTypes = {
    * Existing objects to edit. This is not required but this component makes little sense witout it. Also note that the objects are expected to all have an id key.
    */
   existing:PropTypes.arrayOf(PropTypes.object),
+
+  /**
+   * Information about the item that will be displayed in the sidebar
+   */
+  ObjectInfo:PropTypes.node,
 
   /**
    * Actions to be displayed on the existing objects
