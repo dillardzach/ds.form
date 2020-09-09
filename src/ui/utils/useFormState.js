@@ -297,6 +297,12 @@ export default ({
       type   :'SET_PARSED_VALUE',
       payload:{ [fieldName]: parseValue(value, fieldName) }
     })
+    if(useObjects) {
+      debounce(() => setObjectValue(
+        fieldName,
+        parseValue(value, fieldName.split('__')[1]),
+      ), debounceMs)()
+    }
   },
   [parseValue]
   )

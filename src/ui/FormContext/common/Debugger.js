@@ -116,36 +116,36 @@ const Debugger = ({
             headingClassName='h3'
             heading='Objects'
           >
-              <pre>
-                { JSON.stringify(objects, null, 2) }
-              </pre>
-              <pre>
-                { JSON.stringify(getObjectsArray(), null, 2) }
-              </pre>
+            <pre className='x-paragraph c-x'>
+              { JSON.stringify(objects, null, 2) }
+            </pre>
+            <pre className='x-paragraph c-x'>
+              { JSON.stringify(getObjectsArray(), null, 2) }
+            </pre>
           </Heading>
         </div>
       }
 
       <div>
-          <Heading
-            headingClassName='h3'
-            heading='Validation'
-          >
-        { isValid ?
-          <p className='h2'>
-            If there were any rules passed, the
-            {' '}
-            <span className='x-success c-x'>form is valid</span>
-            .
-          </p>:
-          <p className='h2'>
-            The form values didn't pass sucessfully the rules :
-            {' '}
-            <span className='x-error c-x'>form is invalid</span>
-            . The errors returned from the validation functions are displayed above.
-          </p>
-        }
-          </Heading>
+        <Heading
+          headingClassName='h3'
+          heading='Validation'
+        >
+          { isValid ?
+            <p className='h2'>
+              If there were any rules passed, the
+              {' '}
+              <span className='x-success c-x'>form is valid</span>
+              .
+            </p>:
+            <p className='h2'>
+              The form values didn't pass sucessfully the rules :
+              {' '}
+              <span className='x-error c-x'>form is invalid</span>
+              . The errors returned from the validation functions are displayed above.
+            </p>
+          }
+        </Heading>
       </div>
       <div>
       </div>
