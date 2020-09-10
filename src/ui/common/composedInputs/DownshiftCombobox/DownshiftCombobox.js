@@ -281,6 +281,7 @@ const DownshiftCombobox = ({
     />) : !selectedItem ? (
                            <Button
         { ...getToggleButtonProps() }
+        className='x-subtitle c-x'
         simple
         icon='j'
       />
@@ -288,7 +289,7 @@ const DownshiftCombobox = ({
     ) :
       (<Button
         simple
-        //className='x-red'
+        className='x-subtitle c-x'
         icon='p'
         onClick={ resetDownshift }
       />)
@@ -391,7 +392,7 @@ const DownshiftCombobox = ({
                   ].filter(e => e).join(' ')
                   }
                   style={ itemStyle }
-                  key={`${item}${index}`}
+                  key={`${itemToString(item)}`}
                   {...getItemProps({ item, index })}
                 >
                   {
