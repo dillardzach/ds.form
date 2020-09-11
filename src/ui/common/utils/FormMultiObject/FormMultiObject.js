@@ -500,14 +500,14 @@ FormMultiObject.propTypes = {
   //as: PropTypes.string,
 
   /**
-   * The name of the pk field
-   */
-  idField:PropTypes.string,
-
-  /**
    * The name of the field that will take care of the ordering
    */
   orderField:PropTypes.string,
+
+  /**
+   * The name of the pk field
+   */
+  idField:PropTypes.string,
 
   /**
    * How many blank forms to display
@@ -525,14 +525,14 @@ FormMultiObject.propTypes = {
   existing:PropTypes.arrayOf(PropTypes.object),
 
   /**
-   * Information about the item that will be displayed in the sidebar
-   */
-  ObjectInfo:PropTypes.node,
-
-  /**
    * Actions to be displayed on the existing objects
    */
   ObjectActions:PropTypes.node,
+
+  /**
+   * Information about the item that will be displayed in the sidebar
+   */
+  ObjectInfo:PropTypes.node,
 
   /**
    * Whether to display debug info
