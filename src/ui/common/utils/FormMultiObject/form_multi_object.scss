@@ -8,7 +8,7 @@ Classes :
 
 .form_multi_object{
   .form-container {
-    padding:calc(var(--u, 1) * 1em) calc(var(--u, 1) * .5em);
+    //padding:calc(var(--u, 1) * 1em) calc(var(--u, 1) * .5em);
 
     & + .form-container { 
       border-top:1px solid var(--metadata);
@@ -21,6 +21,7 @@ Classes :
     @media (min-width: 900px) {
       display:grid;
       grid-template-columns:[info] minmax(200px, 350px) [form] auto;
+      grid-gap:calc(var(--u, 1) * 1em);
 
       .info {
         grid-column: info / span 1;

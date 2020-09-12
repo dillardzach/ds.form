@@ -205,7 +205,8 @@ const FormMultiObject = ({
   }, [])
 
   const removeExtraForm = useCallback(randomId => {
-    if(window.confirm('If you have written something in the form please note this object hasnt been saved to the database yet and this data will be lost. Continue and remove this form ?')) {
+
+    if(window.confirm(`If you have written something in the form please note this object hasnt been saved to the database yet and this data will be lost. Continue and remove this form ?\nDEBUG INFO : _formId:${randomId}`)) {
       dispatch({
         type   :'REMOVE_EXTRA_FORM',
         payload:randomId,
@@ -300,7 +301,7 @@ const FormMultiObject = ({
     ((state.extra.length < maxExtra) || !maxExtra) &&
       actionMap.push({
         className:'pointer x-blue',
-        children :'+',
+        children :'+ Extra Form',
         onClick  :addExtraForm,
 
       })
@@ -312,6 +313,16 @@ const FormMultiObject = ({
   [addExtraForm, removeExtraForm, state.extra] )
 
 
+  const RemoveExtraFormButton = useCallback(({formId}) => (
+    <Button
+      className='x-pink'
+      onClick={ () => removeExtraForm(formId) }
+      className='pointer'
+    >
+      Remove form
+    </Button>
+
+  ), [removeExtraForm])
 
 
   return (
@@ -340,15 +351,18 @@ const FormMultiObject = ({
       <div>
         { objects.map((e, i) => (
           <div
-            className='form-container p-u'
+            className='form-container pv-u'
             id={ getObjectPrefix(i) }
             key={ e._formId }
           >
             <div className='info'>
 
-              {ObjectInfo ? 
+              {ObjectInfo ?
                 <ObjectInfo
                   item={ e.object }
+                  newActions={ 
+                        <RemoveExtraFormButton formId={ e._formId } />
+                  }
                 >
                 </ObjectInfo>
                 :
@@ -356,17 +370,7 @@ const FormMultiObject = ({
                   <div>
                     <span>
 
-                      { debug &&
-                        <Label
-                          basic
-                          className='x-red'
-                        >
-                          formId :
-                          {' '}
-                          { e._formId }
-                        </Label>
-                      }
-                      { e.objectId ?
+                                  { e.objectId ?
                         <>
                           <Label
                             circle
@@ -394,13 +398,8 @@ const FormMultiObject = ({
                   { !e.objectId &&
                     <div className='s-1 k-s'>
                       <Button.Group independent>
-                        <Button
-                          className='x-pink'
-                          onClick={ () => removeExtraForm(e._formId) }
-                          className='pointer'
-                        >
-                          Remove form
-                        </Button>
+                        <RemoveExtraFormButton formId={ e._formId } />
+
                       </Button.Group>
                     </div>
                   }
@@ -415,6 +414,17 @@ const FormMultiObject = ({
                   }
                 </>
               }
+          { debug &&
+                        <Label
+                          simple
+                          className='x-grey'
+                        >
+                          formId :
+                          {' '}
+                          { e._formId }
+                        </Label>
+                      }
+
             </div>
 
             <div className='object-form'>
@@ -444,11 +454,12 @@ const FormMultiObject = ({
             </div>
           </div>
 
-        )) }
+        )) }          
       </div>
-      <div className='p-u'>
+      <div className=''>
         <Button.Group
           independent
+          className='s1 k-s'
           style={{ justifyContent: 'flex-end' }}
         >
           { actions.map((e, i) =>
