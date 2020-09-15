@@ -97,11 +97,16 @@ const InputHolder = ({
         >
           {errors && (
             ['string', 'object'].includes(typeof errors) ? errors :
-          <ul>
-          { errors && errors.map((e, i) => <li key={i} className='x-error c-x'>{e}</li>) }
-          </ul>
+            <ul>
+                { errors && errors.map((e, i) => <li
+                key={i}
+                className='x-error c-x'
+                                               >
+                {e}
+                                               </li>) }
+              </ul>
 
-          ) 
+          )
           }
           { !errors && (valid || description) }
         </InputDescription>
@@ -153,7 +158,8 @@ InputHolder.propTypes = {
   errors:PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
-    PropTypes.object ]),
+    PropTypes.object
+  ]),
 
   /**
    * Whether the input is valid. If a sentence, will be displayed before the description.

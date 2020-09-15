@@ -133,7 +133,7 @@ const DownshiftSelect = ({
 
   const onSelectedItemChange = useCallback((setInputValue || userOnSelectedItemChange) ?
     userOnSelectedItemChange ? userOnSelectedItemChange : (c) => {
-      console.log('DS change', c)
+      //console.log('DS change', c)
       !touched && setInputTouched && setInputTouched()
       setInputValue(itemToString(c.selectedItem))
     } : () => null)
@@ -262,7 +262,10 @@ const DownshiftSelect = ({
               preferredOrder={ popupPreferredOrder }
               style={ popupStyle }
             >
-              <ul {...getMenuProps()} className='compact'>
+              <ul
+                {...getMenuProps()}
+                className='compact'
+              >
                 {
                   items.map((item, index) => (
                     <li

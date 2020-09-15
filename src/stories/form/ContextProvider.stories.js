@@ -101,8 +101,6 @@ export const ExampleInputs = () => (
         inputId='subscribe'
         key='subscribe'
       />
-
-
       <FormInput
         context={ context }
         type='image-dropzone'
@@ -110,6 +108,7 @@ export const ExampleInputs = () => (
         label='Please select an illustration'
         description='Drag and drop a file on the square'
         inputId='illustration'
+        key='dropzone'
       />
       <FormContextDebugger context={ context }/>
     </ContextProvider>

@@ -136,7 +136,7 @@ const Dropzone = ({
               preview:URL.createObjectURL(finalImage)
             }
           )
-          console.log(finalImage)
+          //console.log(finalImage)
           return finalImage
         }
 

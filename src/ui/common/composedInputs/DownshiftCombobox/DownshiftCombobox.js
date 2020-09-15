@@ -155,7 +155,7 @@ const DownshiftCombobox = ({
 
   const onSelectedItemChange = useCallback((setInputValue || userOnSelectedItemChange) ?
     userOnSelectedItemChange ? userOnSelectedItemChange : (c) => {
-      console.log('DS change', c)
+      //console.log('DS change', c)
       !touched && setInputTouched && setInputTouched()
       setInputValue(itemToString(c.selectedItem))
     } : () => null)
@@ -166,7 +166,7 @@ const DownshiftCombobox = ({
 
 
   const onInputValueChange = ({inputValue:localValue}) =>{
-    console.log('Input value changed to', localValue, allItems)
+    //console.log('Input value changed to', localValue, allItems)
     setFilteredItems(filterItems(allItems, localValue))
   }
 
