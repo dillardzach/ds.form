@@ -130,13 +130,13 @@ const reducer = (state, action) => {
           ,{})
         }
       }
-      
-      : Object.keys(state.objects).reduce((a,e) => {
+
+        : Object.keys(state.objects).reduce((a,e) => {
           if (e !== getRandomId(action.payload)) {
             a[e] = state.objects[e]
           }
           return a
-        }, {})// If the field removed is the last field we remove all the object 
+        }, {})// If the field removed is the last field we remove all the object
         : state.objects  // If the field removed is not part of an object
         : undefined // If there are no objects
     }
@@ -164,14 +164,7 @@ export default ({
   },[]
   )
 
-  const [{
-    values,
-    touched,
-    parsed,
-    objects,
-    errors:stateErrors
-  },
-  dispatch=()=>null] = useReducer(reducer, {
+  const [state, dispatch=()=>null] = useReducer(reducer, {
     objects:useObjects ? {} : undefined,
     values :initialValues,
     touched:initialTouched,
@@ -229,7 +222,7 @@ export default ({
 
   const handleToggle = fieldName => event => {
     event.persist()
-    const valueSet = values[fieldName]
+    const valueSet = state.values[fieldName]
     const valueToToggle = event.target.value
     valueSet &&
       (valueSet.has(valueToToggle) ?
@@ -257,7 +250,7 @@ export default ({
 
 
   const handleToggleSingle = fieldName => event => {
-    const value = !values[fieldName] //we toggle the previous value
+    const value = !state.values[fieldName] //we toggle the previous value
 
     dispatch({
       type   :'SET_FIELD_VALUE',
@@ -331,9 +324,9 @@ export default ({
 
   const getFieldProps = fieldName => ({
     //Base Api
-    value   :values[fieldName],
-    touched :touched[fieldName],
-    errors  :touched[fieldName] && stateErrors[fieldName],
+    value   :state.values[fieldName],
+    touched :state.touched[fieldName],
+    errors  :state.touched[fieldName] && state.errors[fieldName],
     onChange:handleChange(fieldName),
     onBlur  :handleBlur(fieldName),
     onFocus :handleFocus(fieldName),
@@ -357,13 +350,13 @@ export default ({
   }
    *
    */
-
-  useEffect(() => debounce(() => {
+  const setErrors = useCallback(debounce(() => {    
     var errors = {}
 
     Object.keys(validation).forEach(key => {
       if (key !== '_all') {
-        const value = values[key]
+        console.log(`Validating ${key}, ${state.values[key]}`)
+        const value = state.values[key]
         const validate = validation[key]
 
         const localErrors = validate(value)
@@ -374,7 +367,7 @@ export default ({
       }
       else {
         const validate = validation[key]
-        const localErrors = validate(values)
+        const localErrors = validate(state.values)
         if (localErrors) {
           errors[key] = localErrors
         }
@@ -387,26 +380,33 @@ export default ({
       type   :'SET_ERRORS',
       payload:errors
     })
-  }, debounceMs),
-  [values]
+
+
+  }, debounceMs), [state.values])
+
+  useEffect(() => {
+    setErrors()
+  }
+  ,
+  [state.values]
   )
 
-  const isValid = Object.keys(stateErrors).length === 0
+  const isValid = Object.keys(state.errors).length === 0
 
 
   const getObjectsArray = () =>
-    Object.keys(objects).map(key => objects[key])
+    Object.keys(state.objects).map(key => state.objects[key])
 
 
 
   return {
     setInputValue,
     mergeValues,
-    values,
-    parsed,
-    touched,
-    objects,
-    errors:stateErrors,
+    values :state.values,
+    parsed :state.parsed,
+    touched:state.touched,
+    objects:state.objects,
+    errors :state.errors,
     getFieldProps,
     isValid,
 
