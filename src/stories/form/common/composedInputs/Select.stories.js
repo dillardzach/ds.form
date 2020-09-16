@@ -53,7 +53,7 @@ export const Default = () => (
     other='Altro'
     otherId='yoho'
     label='Please select below who is your favourite composer'
-    inputId='compo'V
+    inputId='compo'
   />
 )
 
@@ -142,7 +142,7 @@ export const Valid = () => (
     label='Please select below who is your favourite composer'
     inputId='compo'
     aesthetic='mars'
-    valid="Great choice"
+    valid='Great choice'
   />
 )
 
@@ -152,9 +152,9 @@ export const Disabled = () => (
     disabled
     options={[
       {
-        value   :'valhalla',
-        label   :'Wagner',
-        id      :'wag',
+        value:'valhalla',
+        label:'Wagner',
+        id   :'wag',
       },
       {
         value:'viaggio',
@@ -182,9 +182,9 @@ export const Compact = () => (
     compact
     options={[
       {
-        value   :'valhalla',
-        label   :'Wagner',
-        id      :'wag',
+        value:'valhalla',
+        label:'Wagner',
+        id   :'wag',
       },
       {
         value:'viaggio',

@@ -149,7 +149,7 @@ const FormMultiObject = ({
 
   const sortItems = useCallback(orderField ? (a, b) => {
     if ((a.order < 0) ^ (b.order < 0)) {
-      console.log(a.order, b.order, 'xor')
+      //console.log(a.order, b.order, 'xor')
       return (a.order > 0) ? -1 : 1
     }
     return a.order - b.order
@@ -230,7 +230,7 @@ const FormMultiObject = ({
     const newOrder = Number(userNewOrder)
     const oldItemInNewPosition = objects.find(e => e.order === newOrder)
 
-    console.warn(`New order of ${randomId} from ${oldOrder} to ${newOrder} ${JSON.stringify(oldItemInNewPosition)}`, objects)
+    //console.warn(`New order of ${randomId} from ${oldOrder} to ${newOrder} ${JSON.stringify(oldItemInNewPosition)}`, objects)
 
     if((newOrder < oldOrder) || !oldOrder) {
       if (oldItemInNewPosition) {
@@ -360,8 +360,8 @@ const FormMultiObject = ({
               {ObjectInfo ?
                 <ObjectInfo
                   item={ e.object }
-                  newActions={ 
-                        <RemoveExtraFormButton formId={ e._formId } />
+                  newActions={
+                    <RemoveExtraFormButton formId={ e._formId } />
                   }
                 >
                 </ObjectInfo>
@@ -370,7 +370,7 @@ const FormMultiObject = ({
                   <div>
                     <span>
 
-                                  { e.objectId ?
+                      { e.objectId ?
                         <>
                           <Label
                             circle
@@ -414,16 +414,16 @@ const FormMultiObject = ({
                   }
                 </>
               }
-          { debug &&
-                        <Label
-                          simple
-                          className='x-grey'
-                        >
-                          formId :
-                          {' '}
-                          { e._formId }
-                        </Label>
-                      }
+              { debug &&
+                <Label
+                  simple
+                  className='x-grey'
+                >
+                  formId :
+                  {' '}
+                  { e._formId }
+                </Label>
+              }
 
             </div>
 
@@ -454,7 +454,7 @@ const FormMultiObject = ({
             </div>
           </div>
 
-        )) }          
+        )) }
       </div>
       <div className=''>
         <Button.Group
@@ -538,7 +538,7 @@ FormMultiObject.propTypes = {
   /**
    * Actions to be displayed on the existing objects
    */
-  ObjectActions:PropTypes.node,
+  ObjectActions:PropTypes.elementType,
 
   /**
    * Information about the item that will be displayed in the sidebar

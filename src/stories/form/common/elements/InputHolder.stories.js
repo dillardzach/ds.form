@@ -44,8 +44,8 @@ export const All = () => {
       fontSize:'2em'
     },
 
-    error :'unhappy error message',
-    validi:'You\'re all set',
+    error:'unhappy error message',
+    valid:'You\'re all set',
 
     disabled:true,
     optional:true,
