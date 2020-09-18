@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 1.4.0 */
 import * as React from 'react'
-import { useEffect, useState, useCallback, useMemo, useReducer } from 'react'
+import { memo, useEffect, useState, useCallback, useMemo, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
 import { useCombobox } from 'downshift'
@@ -14,6 +14,8 @@ import {
   InputInside,
   InputHolder as Holder,
 } from '../../elements'
+
+import { comparisonFunction } from 'ui/utils'
 
 /* Relative imports
    import styles from './downshift_combobox.scss' */
@@ -30,7 +32,7 @@ const baseClassName = 'downshift_combobox'
  * Use `DownshiftCombobox` to
  * Has color `x`
  */
-const DownshiftCombobox = ({
+const DownshiftCombobox = memo(({
   id,
   className,
   style,
@@ -422,7 +424,9 @@ const DownshiftCombobox = ({
     </Holder>
 
   )
-}
+},
+  comparisonFunction
+)
 
 DownshiftCombobox.propTypes = {
   /**

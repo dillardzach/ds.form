@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 2.4.1 */
 import * as React from 'react'
-//import {} from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -8,7 +8,7 @@ import { BaseHTMLCheckbox } from '../../baseInputs'
 
 import { InputHolder, InputInside } from '../../elements'
 
-
+import { comparisonFunction } from 'ui/utils'
 //Intl
 
 //import { FormattedMessage} from "react-intl";
@@ -34,7 +34,7 @@ const baseClassName = 'checkbox'
  * Use `Checkbox` to
  * Has color `x` 
  */
-const Checkbox = ({
+const Checkbox = memo(({
   id,
   className,
   style,
@@ -164,7 +164,9 @@ const Checkbox = ({
           { ...inputProps }
         />
     </InputHolder>
-)}
+)},
+  comparisonFunction
+)
 
 Checkbox.propTypes = {
   /**

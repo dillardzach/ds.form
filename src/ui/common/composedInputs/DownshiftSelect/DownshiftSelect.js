@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 1.4.0 */
 import * as React from 'react'
-import { useMemo, useCallback } from 'react'
+import { memo, useMemo, useCallback } from 'react'
 
 import PropTypes from 'prop-types'
 
@@ -10,6 +10,7 @@ import { Popup, Button } from 'ds-core'
 
 import { InputHolder as Holder } from '../../elements'
 
+import { comparisonFunction } from 'ui/utils'
 /* Config
    import C from 'ui/cssClasses' */
 
@@ -28,7 +29,7 @@ const baseClassName = 'downshift_select'
  * Use `DownshiftSelect` to
  * Has color `x`
  */
-const DownshiftSelect = ({
+const DownshiftSelect = memo(({
   id,
   className,
   style,
@@ -291,7 +292,9 @@ const DownshiftSelect = ({
         </div>
       </div>
     </Holder>
-  )}
+  )},
+  comparisonFunction
+)
 
 DownshiftSelect.propTypes = {
   /**
