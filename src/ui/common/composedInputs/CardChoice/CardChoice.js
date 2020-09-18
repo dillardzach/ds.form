@@ -1,13 +1,13 @@
 /* @fwrlines/generator-react-component 1.5.0 */
 import * as React from 'react'
-//import {} from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { BaseCardChoice } from '../../baseInputs'
 
 import { InputHolder } from '../../elements'
 
-
+import { comparisonFunction } from 'ui/utils'
 /* Config
    import C from 'ui/cssClasses' */
 
@@ -26,7 +26,7 @@ const baseClassName = 'card_choice'
  * Use `CardChoice` to
  * Has color `x`
  */
-const CardChoice = ({
+const CardChoice = memo(({
   id,
   className,
   style,
@@ -140,7 +140,9 @@ const CardChoice = ({
         { ...inputProps }
       />
     </InputHolder>
-  )}
+  )},
+  comparisonFunction
+)
 
 CardChoice.propTypes = {
   /**

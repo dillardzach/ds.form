@@ -1,13 +1,13 @@
 /* @fwrlines/generator-react-component 1.5.0 */
 import * as React from 'react'
-//import {} from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { BaseHTMLInput } from '../../baseInputs'
 
 import { InputHolder, InputInside } from '../../elements'
 
-
+import { comparisonFunction } from 'ui/utils'
 /* Config
    import C from 'ui/cssClasses' */
 
@@ -26,7 +26,7 @@ const baseClassName = 'input'
  * Use `Input` to
  * Has color `x`
  */
-const Input = ({
+const Input = memo(({
   id,
   className,
   style,
@@ -170,7 +170,9 @@ const Input = ({
       </InputInside>
       }
     </InputHolder>
-  )}
+  )}, 
+  comparisonFunction
+)
 
 Input.propTypes = {
   /**

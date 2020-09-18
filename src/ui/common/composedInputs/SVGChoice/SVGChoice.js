@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 1.5.0 */
 import * as React from 'react'
-//import {} from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 
@@ -8,6 +8,7 @@ import { BaseSVGChoice } from '../../baseInputs'
 
 import { InputHolder } from '../../elements'
 
+import { comparisonFunction } from 'ui/utils'
 
 /* Config
    import C from 'ui/cssClasses' */
@@ -27,7 +28,7 @@ const baseClassName = 'svg_choice'
  * Use `SVGChoice` to
  * Has color `x`
  */
-const SVGChoice = ({
+const SVGChoice = memo(({
   id,
   className,
   style,
@@ -143,7 +144,9 @@ const SVGChoice = ({
         { ...inputProps }
       />
     </InputHolder>
-  )}
+  )},
+  comparisonFunction
+)
 
 SVGChoice.propTypes = {
   /**
