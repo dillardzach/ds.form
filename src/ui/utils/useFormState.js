@@ -393,10 +393,16 @@ export default ({
 
   const isValid = Object.keys(state.errors).length === 0
 
+  const getTouchedValues = () =>
+    Object.keys(state.parsed).reduce((a, key) => {
+      if (state.touched[key]) {
+        a[key] = state.parsed[key]
+      }
+      return a
+    }, {})
 
   const getObjectsArray = () =>
     Object.keys(state.objects).map(key => state.objects[key])
-
 
 
   return {
@@ -408,6 +414,7 @@ export default ({
     objects:state.objects,
     errors :state.errors,
     getFieldProps,
+    getTouchedValues,
     isValid,
 
     handleChange,

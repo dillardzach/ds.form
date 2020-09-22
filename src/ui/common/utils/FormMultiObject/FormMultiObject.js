@@ -114,6 +114,7 @@ const FormMultiObject = ({
   style,
   children,
 
+  formClassName,
   inputMap,
   orderField,
   idField,
@@ -337,7 +338,7 @@ const FormMultiObject = ({
       id={ id }
       style={ style }
     >
-      <pre className='s-2 k-s'>
+      <p className=''>
         Number of items :
         { state.existing.length }
         (existing)
@@ -345,7 +346,7 @@ const FormMultiObject = ({
         { state.extra.length }
         (extra)
         {/* JSON.stringify(state, null, 2) */}
-      </pre>
+      </p>
 
 
       <div>
@@ -427,7 +428,14 @@ const FormMultiObject = ({
 
             </div>
 
-            <div className='object-form'>
+            <div
+      className={
+        [
+          'object-form',
+          formClassName
+        ].filter(e => e).join(' ')
+      }
+            >
               { orderInputProps &&
                 <div className='y-background b-y'>
                   <FormInput
@@ -485,6 +493,11 @@ FormMultiObject.propTypes = {
    * The html class names to be provided to this element
    */
   className:PropTypes.string,
+
+  /**
+   * The html class names to be provided to each form
+   */
+  formClassName:PropTypes.string,
 
   /**
    * The JSX-Written, css styles to apply to the element.
@@ -555,7 +568,7 @@ FormMultiObject.defaultProps = {
   extra     :2,
   orderField:'order',
   idField   :'id',
-  debug     :true
+  debug     :true,
   /* height:'2.2em',
      as:'p', */
 }
