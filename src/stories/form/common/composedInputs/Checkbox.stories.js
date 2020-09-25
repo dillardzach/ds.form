@@ -6,26 +6,26 @@ import { useState } from 'react'
 //import { action } from '@storybook/addon-actions'
 
 import { Checkbox } from 'ui'
-//import QUERY from './graphql/query.graphql'
-//import { AplProvider } from 'stories/utils'
-//import { Router } from 'stories/utils'
-//import {ALL_COLORS, SIZES } from 'stories/config.js'
-//import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from 'stories/utils/Dummy'
+/* import QUERY from './graphql/query.graphql'
+   import { AplProvider } from 'stories/utils'
+   import { Router } from 'stories/utils'
+   import {ALL_COLORS, SIZES } from 'stories/config.js'
+   import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from 'stories/utils/Dummy' */
 
 //const endpoint = 'https://api.fwrlines.com/graphql'
 
 export default {
-  title: 'form/common/composedInputs/Checkbox',
-  component:Checkbox,
+  title        :'form/common/composedInputs/Checkbox',
+  component    :Checkbox,
   //componentSubtitle:'Component subtitle',
-  subcomponents: {
+  subcomponents:{
     //Item:Checkbox.Item
   },
-  parameters: {
-    decorators: [ 
-      //storyfn => <div className="">{ storyfn() }</div>,
-      //storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
-      //storyfn => <Router>{ storyfn() }</Router>,
+  parameters:{
+    decorators:[
+      /* storyfn => <div className="">{ storyfn() }</div>,
+         storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
+         storyfn => <Router>{ storyfn() }</Router>, */
     ]
   }
 }
@@ -52,7 +52,7 @@ export const Default = () => {
       name,
       value
     } = e.target
-    console.log('The full change event has been logged for debugging puroposes', e)
+    //console.log('The full change event has been logged for debugging puroposes', e)
     setValue(value)
   }
   return (

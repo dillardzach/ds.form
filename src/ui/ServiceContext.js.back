@@ -150,7 +150,7 @@ class ServiceContextProviderPayload extends Component {
       postcode:this.state.postcode.value, //TODO inconsistent pass as Int
       email:this.state.email.value
     }
-    console.log(variables)
+    // console.log(variables)
     mutate({ variables }).then((a,b) =>{
       this._confirmWaitlist(a.data)
     }).catch((e) => {
@@ -193,7 +193,7 @@ class ServiceContextProviderPayload extends Component {
       preferred_time:this.state.preferred_time.value,
       motorcycle:Boolean(Number(this.state.moto.value)),
     }
-    console.log(variables)
+    // console.log(variables)
     mutate({ variables }).then((a,b) =>{
       this._confirmMain(a.data)
     }).catch((e) => {
