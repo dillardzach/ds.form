@@ -156,7 +156,7 @@ export const Error = () => (
 export const LeftSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <FormInput
@@ -176,7 +176,7 @@ export const LeftSide = () => {
 export const RightSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <FormInput
@@ -196,7 +196,7 @@ export const RightSide = () => {
 export const LeftIcon = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <FormInput
@@ -216,7 +216,7 @@ export const LeftIcon = () => {
 export const RightIcon = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <FormInput
@@ -236,7 +236,7 @@ export const RightIcon = () => {
 export const IconAndSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <FormInput

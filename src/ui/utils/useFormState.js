@@ -355,7 +355,7 @@ export default ({
 
     Object.keys(validation).forEach(key => {
       if (key !== '_all') {
-        console.log(`Validating ${key}, ${state.values[key]}`)
+        //console.log(`Validating ${key}, ${state.values[key]}`)
         const value = state.values[key]
         const validate = validation[key]
 

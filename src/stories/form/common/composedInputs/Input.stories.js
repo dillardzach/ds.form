@@ -42,7 +42,7 @@ export const Default = () => {
       name:dname,
       value:dvalue
     } = e.target
-    console.log('The full change event has been logged for debugging puroposes', e)
+    //console.log('The full change event has been logged for debugging puroposes', e)
     setValue(dvalue)
     setDetectedName(dname)
   }
@@ -141,7 +141,7 @@ export const Error = () => (
 export const LeftSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <Input
@@ -162,7 +162,7 @@ export const LeftSide = () => {
 export const RightSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <Input
@@ -183,7 +183,7 @@ export const RightSide = () => {
 export const LeftIcon = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <Input
@@ -204,7 +204,7 @@ export const LeftIcon = () => {
 export const RightIcon = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <Input
@@ -225,7 +225,7 @@ export const RightIcon = () => {
 export const IconAndSide = () => {
   const [value, setValue] = useState()
   const onChange = (e) => {
-    console.log('%%%%%', e)
+    //console.log('%%%%%', e)
   }
   return (
     <Input
