@@ -223,7 +223,13 @@ const DownshiftCombobox = memo(({
     reset:resetDownshift
   } = useCombobox(finalUseComboboxProps)
 
+  const resetComponent = useCallback(() => {
+    resetDownshift()
+    setInputValue(null)
+  }, [resetDownshift, setInputValue])
 
+
+  //Not sure what this effect does
   useEffect(() =>  {
     if(!filteredItems.length) {
       setFilteredItems(allItems)
@@ -293,7 +299,7 @@ const DownshiftCombobox = memo(({
         simple
         className='x-subtitle c-x'
         icon='p'
-        onClick={ resetDownshift }
+        onClick={ resetComponent }
       />)
     ,
     ...getComboboxProps()
