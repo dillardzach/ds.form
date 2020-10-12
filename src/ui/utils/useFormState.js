@@ -156,6 +156,7 @@ export default ({
   objectsIdField='id',
   ...otherProps
 }) => {
+  //console.log('USEFORM is called')
 
   const parseValue = useCallback((value, name) => {
     //console.log('parsing', name, value, parsers[name])
