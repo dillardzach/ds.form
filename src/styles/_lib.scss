@@ -1,0 +1,151 @@
+$form-base-class:"input" !default; //main class for the form, applied to the container
+$form-error-class:"error" !default;
+$form-valid-class:"valid" !default;
+$form-compact-class:"compact" !default;
+$fc:$form-base-class; //shorter alias to the previous
+
+$form-variables-prefix:form !default;
+
+@mixin define-form-style-vars($array, $theme-name) {
+  .#{$fc}.#{$theme-name} {
+    @each $variable, $value in $array {
+      --#{$form-variables-prefix}-#{$variable}: #{$value};
+    }
+  }
+}
+@mixin form-style-general() {
+  .#{$fc} {
+    //font-size: calc(var(--t, 1) * 1em);
+
+    .inside {
+      border: var(--form-border);
+      border-radius: var(--form-border-radius);
+      overflow-x: hidden;
+      transition: .3s border-color;
+
+      * {
+        transition: .3s all;
+      }
+    }
+
+    &:not(:disabled) .inside {
+      &:hover {
+        border-color: var(--form-input-hover-border-color);
+      }
+
+      &:focus-within,
+      &:focus {
+        border-color: var(--form-input-focus-border-color);
+      }
+    }
+
+    &:disabled {
+      .inside div {
+        //border-color: var(--form-input-disabled-border);
+        background: var(--form-input-disabled-background);
+      }
+    }
+  }
+
+  .#{$fc}.#{$form-error-class} {
+    --y: var(--error);
+    --light-y: var(--light-error);
+    --dark-y: var(--dark-error);
+    --on-y: var(--on-error);
+    --form-state-color: var(--error);
+    --form-state-color-light: var(--light-error);
+  }
+
+  .#{$fc}.#{$form-valid-class} {
+    --y: var(--success);
+    --light-y: var(--light-success);
+    --dark-y: var(--dark-success);
+    --on-y: var(--on-success);
+    --form-state-color: var(--success);
+    --form-state-color-light: var(--light-success);
+  }
+}
+@mixin form-style-fieldset() {
+  .#{$fc} {
+    //background: blue;
+  }
+}
+@mixin form-style-text-input() {
+  .#{$fc} input,
+  .#{$fc} textarea,
+  .#{$fc} select {
+    background: var(--form-input-background);
+    color: var(--form-input-color);
+    font-size: var(--form-input-font-size);
+    font-weight: var(--form-input-font-weight);
+    line-height: var(--form-input-line-height);
+
+    padding: var(--form-input-padding);
+
+    &:disabled {
+      //border-color: var(--form-input-disabled-border);
+      background: var(--form-input-disabled-background);
+    }
+
+    &:focus {
+      color: var(--form-input-focus-color);
+    }
+  }
+
+
+  .#{$fc} input,
+  .#{$fc} textarea {
+    caret-color: var(--form-input-caret-color);
+
+    &:disabled {
+      &::placeholder {
+        color: var(--form-input-disabled-color);
+        opacity: .6;
+      }
+    }
+
+    &::input-placeholder,
+    &::placeholder {
+      color: var(--form-input-placeholder-color);
+      opacity: .6;
+    }
+  }
+
+  .#{$fc} textarea {
+    resize: var(--form-textarea-resize);
+  }
+
+  .#{$fc} select option {
+    font-family: var(--font-paragraph);
+    font-size: 1em;
+  }
+}
+@mixin form-style-label() {
+  .#{$fc} > label,
+  .#{$fc} > legend {
+    color: var(--form-label-color);
+    font-size: var(--form-label-font-size);
+    margin: var(--form-label-margin);
+    padding: var(--form-label-padding);
+  }
+}
+@mixin form-compact-style() {
+  .#{$fc}.#{$form-compact-class} > label,
+  .#{$fc}.#{$form-compact-class} > legend {
+    padding: var(--form-label-compact-padding);
+  }
+
+  .#{$fc}.#{$form-compact-class} input,
+  .#{$fc}.#{$form-compact-class} textarea,
+  .#{$fc}.#{$form-compact-class} select {
+    padding: var(--form-input-compact-padding);
+  }
+}
+@mixin form-styles() {
+  @include form-style-general();
+  @include form-style-fieldset();
+  @include form-style-text-input();
+  @include form-style-label();
+  @include form-compact-style();
+}
+

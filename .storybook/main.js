@@ -26,7 +26,9 @@ module.exports = {
           loader:'sass-loader', 
           options: {
             sassOptions: {
-              includePaths: [path.resolve(__dirname, ADD_SCSS_LIB_TO_CONTEXT)]
+              includePaths: [
+                path.resolve(__dirname, ADD_SCSS_LIB_TO_CONTEXT),
+              ]
             }
           }
         }
