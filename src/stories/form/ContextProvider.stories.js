@@ -33,13 +33,11 @@ export default {
   subcomponents:{
     //ContextProvider.Item
   },
-  parameters:{
-    decorators:[
-      storyfn => <AplProvider>{ storyfn() }</AplProvider>,
-      /* storyfn => <div className="">{ storyfn() }</div>,
+  decorators:[
+    storyfn => <AplProvider>{ storyfn() }</AplProvider>,
+    /* storyfn => <div className="">{ storyfn() }</div>,
          storyfn => <Router>{ storyfn() }</Router>, */
-    ]
-  }
+  ]
 }
 
 const context = React.createContext()
