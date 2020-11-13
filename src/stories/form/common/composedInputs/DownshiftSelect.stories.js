@@ -21,13 +21,11 @@ export default {
   subcomponents:{
     //DownshiftSelect.Item
   },
-  parameters:{
-    decorators:[
-      /* storyfn => <div className="">{ storyfn() }</div>,
+  decorators:[
+    /* storyfn => <div className="">{ storyfn() }</div>,
          storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
          storyfn => <Router>{ storyfn() }</Router>, */
-    ]
-  }
+  ]
 }
 
 export const Default = () => (
@@ -41,7 +39,7 @@ export const Default = () => (
   </DownshiftSelect>
 )
 
-  /*
+/*
 export const Variant = () => (
   <DownshiftSelect></DownshiftSelect>
 )

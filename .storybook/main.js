@@ -26,7 +26,9 @@ module.exports = {
           loader:'sass-loader', 
           options: {
             sassOptions: {
-              includePaths: [path.resolve(__dirname, ADD_SCSS_LIB_TO_CONTEXT)]
+              includePaths: [
+                path.resolve(__dirname, ADD_SCSS_LIB_TO_CONTEXT),
+              ]
             }
           }
         }
@@ -37,7 +39,7 @@ module.exports = {
     // Return the altered config
     return config;
   },
-  stories: ['../src/stories/**/*.stories.(js|jsx)'],
+  stories: ['../src/stories/**/*.stories.@(ts|js|mdx|jsx)'],
   addons: [
     '@storybook/addon-actions', 
     '@storybook/addon-links',

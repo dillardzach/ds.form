@@ -1,0 +1,45 @@
+@use "reset";
+@use "lib" as *;
+
+$simple:(
+  "state-color-light":var(--metadata),
+  "border":2px solid var(--form-state-color-light),
+  "border-radius":var(--r),
+  "box-shadow":"yes",
+  "fieldset-padding":0,
+  "fieldset-background":var(--metadata),
+  "label-color":var(--subtitle),
+  "label-font-size": calc(var(--s2, 1) * var(--s, 1) * 1em),
+  "label-margin":0 0 .7em,
+  "label-padding":0 0,
+  "label-compact-padding":0 0,
+  "input-font-weight":normal,
+  "input-background":transparent,
+  "input-line-height":2em,
+  "input-padding":1em 1em,
+  "input-compact-padding":.4em .65em,
+  "input-color":var(--x, var(--subtitle)),
+  "input-caret-color":var(--y, var(--primary)),
+  "input-placeholder-color":var(--dark-metadata),
+  "input-font-size":calc(var(--s, 1) * var(--s1) * 1em),
+  "input-disabled-color":var(--dark-metadata),
+  "input-disabled-background":var(--background),
+  "input-disabled-border":var(--dark-metadata),
+  "input-focus-color":var(--paragraph),
+  "input-focus-border-color":var(--y, var(--primary)),
+  "input-hover-border-color":var(--light-y, var(--light-primary)),
+  "textarea-resize":none,
+  "error-icon":"!",
+  "valid-icon":"v",
+  "description-color":var(--light-subtitle),
+  "description-padding":0,
+  "description-margin":.7em 0 0,
+  "description-font-size":calc(var(--s, 1) * 1em),
+  "side-color":var(--z-on, var(--subtitle)),
+  "side-background":var(--z-light, var(--background)),
+  "popup-background":var(--z-light, var(--background)),
+  "active-area-background":var(--dark-background),
+);
+
+@include define-form-style-vars($simple, "mars");
+@include form-styles();

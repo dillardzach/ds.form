@@ -25,21 +25,19 @@ export default {
   //componentSubtitle:'Component subtitle',
   subcomponents:{
   },
-  parameters:{
-    decorators:[
-      storyfn => <FormContextProvider
-        initialValues={{
+  decorators:[
+    storyfn => <FormContextProvider
+      initialValues={{
 
-        }}
-                 >
-        { storyfn() }
-        <FormContextDebugger/>
-      </FormContextProvider>,
-      /*
+      }}
+               >
+      { storyfn() }
+      <FormContextDebugger/>
+               </FormContextProvider>,
+    /*
          storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
          storyfn => <Router>{ storyfn() }</Router>, */
-    ]
-  }
+  ]
 }
 
 export const Default = () => {

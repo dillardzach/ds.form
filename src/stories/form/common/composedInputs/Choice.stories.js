@@ -5,28 +5,26 @@ import * as React from 'react'
 //import { action } from '@storybook/addon-actions'
 
 import { Choice } from 'ui'
-//import QUERY from './graphql/query.graphql'
-//import { AplProvider } from 'stories/utils'
-//import { Router } from 'stories/utils'
-//import {ALL_COLORS, SIZES } from '../config.js'
-//import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from '../utils/Dummy'
+/* import QUERY from './graphql/query.graphql'
+   import { AplProvider } from 'stories/utils'
+   import { Router } from 'stories/utils'
+   import {ALL_COLORS, SIZES } from '../config.js'
+   import { LIST, LIST_XS, TEXT_XXS_ESC, TEXT_XXS, TEXT_XS, TEXT } from '../utils/Dummy' */
 
 //const endpoint = 'https://api.fwrlines.com/graphql'
 
 export default {
-  title: 'form/common/composedInputs/Choice',
-  component:Choice,
+  title        :'form/common/composedInputs/Choice',
+  component    :Choice,
   //componentSubtitle:'Component subtitle',
-  subcomponents: {
+  subcomponents:{
     //Choice.Item
   },
-  parameters: {
-    decorators: [ 
-      //storyfn => <div className="">{ storyfn() }</div>,
-      //storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
-      //storyfn => <Router>{ storyfn() }</Router>,
-    ]
-  }
+  decorators:[
+    /* storyfn => <div className="">{ storyfn() }</div>,
+       storyfn => <AplProvider endpoint={ endpoint }>{ storyfn() }</AplProvider>,
+       storyfn => <Router>{ storyfn() }</Router>, */
+  ]
 }
 
 export const Default = () => (
@@ -59,7 +57,7 @@ export const Default = () => (
     otherId='yoho'
     label='Whats your favourite composer'
     inputId='compo'
-    />
+  />
 )
 
 export const Variant = () => (
@@ -94,6 +92,6 @@ export const Variant = () => (
     otherId='yoho'
     label='Whats your favourite composer'
     inputId='compo'
-    />
+  />
 )
 
