@@ -1,7 +1,7 @@
 {
   "name": "@fwrlines/ds.form",
   "author": "",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -38,6 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "@fwrlines/ds.core": "latest",
+    "@fwrlines/swatch": "latest",
     "@fwrlines/stylebook": "latest",
     "@fwrlines/utils": "latest",
     "compressorjs": "^1.0.6",
