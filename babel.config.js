@@ -32,7 +32,7 @@ module.exports = function (api) {
         'ds-core':'@fwrlines/ds.core'
       }
     }],
-    '@babel/plugin-proposal-class-properties',
+    ['@babel/plugin-proposal-class-properties', { 'loose': true }],
     ['babel-plugin-inline-import', {
       'extensions':[
         '.html',
