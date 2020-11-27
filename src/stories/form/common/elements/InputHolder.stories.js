@@ -77,3 +77,36 @@ export const All = () => {
 
 }
 
+export const Suffix = () => {
+
+  const all_props={
+    className:'wrapperclass',
+    id       :'wrapperid',
+    style    :{
+      fontSize:'2em'
+    },
+
+    error:'unhappy error message',
+    valid:'You\'re all set',
+
+    disabled:true,
+    optional:true,
+
+    //as:"fieldset",
+    aesthetic:'mars',
+    compact  :true,
+
+    inputId:'usermail',
+
+    label:'Enter your email',
+
+    suffix:'20/120 chars'
+  }
+
+  return (
+    <InputHolder { ...all_props}>
+      the input goes here
+    </InputHolder>
+  )
+
+}

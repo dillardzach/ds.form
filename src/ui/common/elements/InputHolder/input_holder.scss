@@ -1,4 +1,5 @@
 /* @fwrlines/generator-react-component 1.5.0 */
+
 /*
 
 Classes :
@@ -6,6 +7,13 @@ Classes :
 
 */
 
-.input_holder{
+.input {
+  .content {
+    background: red;
+    display: flex;
 
+    .suffix {
+      margin-left: auto;
+    }
+  }
 }
