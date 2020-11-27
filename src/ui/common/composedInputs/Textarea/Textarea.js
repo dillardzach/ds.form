@@ -3,7 +3,7 @@ import * as React from 'react'
 //import {} from 'react'
 import PropTypes from 'prop-types'
 
-
+import { useCounter } from 'ui/common/utils'
 
 import { BaseHTMLTextarea,  } from '../../baseInputs'
 
@@ -65,8 +65,22 @@ const Textarea = ({
 
   //Specific to this input
   placeholder,
+  limitType,
+  limitCount,
+
   ...otherProps
 }) => {
+
+  const {
+    error:countError,
+    current:currentCount,
+  } = useCounter(
+    value,
+    {
+      mode :limitType,
+      limit:limitCount,
+    }
+  )
 
   const holderProps = {
     id,
@@ -98,6 +112,9 @@ const Textarea = ({
     descriptionAs,
     descriptionClassName,
     descriptionStyle,
+
+    suffix     :limitCount && `${currentCount}/${limitCount}`,
+    suffixError:countError
 
   }
 
@@ -286,6 +303,17 @@ Textarea.propTypes = {
    * The input placeholder
    */
   placeholder:PropTypes.string,
+
+  /**
+   * Which kind of limit to count
+   */
+  limitType:PropTypes.oneOf(['words', 'letters', undefined]),
+
+
+  /**
+   * How many letters or words to count
+   */
+  limitCount:PropTypes.number,
 }
 
 Textarea.defaultProps = {

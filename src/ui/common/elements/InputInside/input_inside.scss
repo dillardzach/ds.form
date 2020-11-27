@@ -9,14 +9,13 @@ Classes :
 
 .input {
   .inside {
+    align-items: stretch;
     display: flex;
-    position:relative;
-    align-items:center;
+    position: relative;
 
     input,
     textarea,
-    select
-    {
+    select {
       width: 100%;
     }
   }

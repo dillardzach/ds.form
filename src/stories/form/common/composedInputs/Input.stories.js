@@ -102,6 +102,8 @@ export const Compact = () => (
     type='email'
     name='formeremail'
     label='Your last stay with us'
+    leftSide='$'
+    rightIcon='7'
     inputId='optional-else'
     aesthetic='mars'
     compact
@@ -237,6 +239,52 @@ export const IconAndSide = () => {
       rightSide='onces'
       placeholder={ '120' }
       aesthetic='mars'
+    />
+
+  )
+}
+
+export const LimitCount = () => {
+  const [value, setValue] = useState()
+  const onChange = (e) => {
+    setValue(e.target.value)
+  }
+
+  return (
+    <Input
+      aesthetic='mars'
+      type='number'
+      name={ 'gasoline' }
+      value={ value }
+      onChange={ onChange }
+      label='How much gasoline ?'
+      rightSide='gallons'
+      placeholder={ '120' }
+      inputId='gasoline'
+      description='Enter a number.'
+      limitCount={5}
+    />
+
+  )
+}
+
+export const LimitType = () => {
+  const [value, setValue] = useState()
+  const onChange = (e) => {
+    setValue(e.target.value)
+  }
+  return (
+    <Input
+      aesthetic='mars'
+      type='text'
+      name={ 'yourname' }
+      value={ value }
+      onChange={ onChange }
+      label='Your name max 2 words ?'
+      placeholder={ 'John' }
+      inputId='y'
+      limitType='words'
+      limitCount={2}
     />
 
   )

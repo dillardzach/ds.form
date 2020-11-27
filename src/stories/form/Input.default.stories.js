@@ -120,6 +120,8 @@ export const Compact = () => (
     type='email'
     name='formeremail'
     label='Your last stay with us'
+    leftSide='date'
+    rightIcon='A'
     inputId='optional-else'
     compact
   />
@@ -245,7 +247,7 @@ export const IconAndSide = () => {
       label='How much gasoline ?'
       inputId='gasoline'
       rightIcon='d'
-      rightSide='onces'
+      rightSide='gallons'
       placeholder={ '120' }
     />
 

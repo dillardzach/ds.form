@@ -40,6 +40,17 @@ export const Default = () => (
   />
 )
 
+export const Compact = () => (
+  <DownshiftCombobox
+    compact
+    inputId='fruit'
+    label='Please select your favourite fruit'
+    options={ LIST }
+    description='Here is a list of very tasty fruits you can choose your favourite from'
+    aesthetic='mars'
+  />
+)
+
 export const Dict = () => (
   <DownshiftCombobox
     inputId='fruit'

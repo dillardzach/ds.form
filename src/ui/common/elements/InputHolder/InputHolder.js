@@ -56,6 +56,7 @@ const InputHolder = ({
   descriptionStyle,
 
   suffix,
+  suffixError,
 }) => {
   return(
     <Wrapper
@@ -120,10 +121,11 @@ const InputHolder = ({
               as={ descriptionAs }
               className={[
                 'suffix',
+                suffixError && C.error,
               ].filter( e => e ).join(' ') }
               style={ descriptionStyle }
             >
-              Yo yo yo
+              { suffix }
             </InputDescription>}
         </div>
       }
@@ -260,6 +262,16 @@ InputHolder.propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
+
+  /**
+   * A suffix to add right of the description
+   */
+  suffix:PropTypes.string,
+
+  /**
+   * Whether the suffix is in error state
+   */
+  suffixErrorx:PropTypes.boolean,
 }
 
 InputHolder.defaultProps = {
