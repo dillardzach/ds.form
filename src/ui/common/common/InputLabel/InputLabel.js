@@ -51,17 +51,19 @@ const InputLabel = ({
     >
       { children }
       { optional &&
-        <Label
-          className='k-s s-2 x-link'
-          simple
-          style={{
-            fontWeight:'normal'
-          }}
-        >
-          (
-          <FormattedMessage {...messages.optional } />
-          )
-        </Label>
+        <sup>
+          <Label
+            className='s-2 x-link'
+            simple
+            style={{
+              fontWeight:'normal'
+            }}
+          >
+            (
+            <FormattedMessage {...messages.optional } />
+            )
+          </Label>
+        </sup>
       }
     </Wrapper>
   )}

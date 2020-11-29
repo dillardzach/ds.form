@@ -1,6 +1,6 @@
 /* @fwrlines/generator-storybook-story 1.5.0 */
 import * as React from 'react'
-//import {} from 'react'
+import { useState } from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
@@ -57,3 +57,44 @@ export const Mars = () => (
   />
 )
 
+export const LimitCount = () => {
+  const [value, setValue] = useState()
+  const onChange = (e) => {
+    setValue(e.target.value)
+  }
+
+  return (
+    <Textarea
+      aesthetic='mars'
+      name={ 'gasoline' }
+      value={ value }
+      onChange={ onChange }
+      label='Tweet something?'
+      inputId='tweet'
+      description='Maximum 30 letters.'
+      limitCount={30}
+    />
+
+  )
+}
+
+export const LimitType = () => {
+  const [value, setValue] = useState()
+  const onChange = (e) => {
+    setValue(e.target.value)
+  }
+  return (
+    <Textarea
+      aesthetic='mars'
+      name={ 'yourname' }
+      value={ value }
+      onChange={ onChange }
+      label='Your name max 2 words ?'
+      placeholder={ 'John' }
+      inputId='yourname'
+      limitType='words'
+      limitCount={2}
+    />
+
+  )
+}

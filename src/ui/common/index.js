@@ -38,5 +38,6 @@ export {
 
 export {
   FormMultiObject,
-  FormQueryMultiObject
+  FormQueryMultiObject,
+  useCounter,
 } from './utils'

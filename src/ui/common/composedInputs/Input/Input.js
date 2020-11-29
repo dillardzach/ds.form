@@ -3,6 +3,8 @@ import * as React from 'react'
 import { memo } from 'react'
 import PropTypes from 'prop-types'
 
+import { useCounter } from 'ui/common/utils'
+
 import { BaseHTMLInput } from '../../baseInputs'
 
 import { InputHolder, InputInside } from '../../elements'
@@ -26,7 +28,7 @@ const baseClassName = 'input'
  * Use `Input` to
  * Has color `x`
  */
-const Input = memo(({
+const Input = ({
   id,
   className,
   style,
@@ -78,8 +80,22 @@ const Input = memo(({
 
   //Specific to this input
   placeholder,
-  type
+  type,
+
+  limitType,
+  limitCount,
 }) => {
+
+  const {
+    error:countError,
+    current:currentCount,
+  } = useCounter(
+    value,
+    {
+      mode :limitType,
+      limit:limitCount,
+    }
+  )
 
   const holderProps = {
     id,
@@ -111,6 +127,9 @@ const Input = memo(({
     descriptionAs,
     descriptionClassName,
     descriptionStyle,
+
+    suffix     :limitCount && `${currentCount}/${limitCount}`,
+    suffixError:countError
 
   }
 
@@ -156,23 +175,21 @@ const Input = memo(({
     <InputHolder
       { ...holderProps }
     >
-      { (type === 'hidden') ? 
+      { (type === 'hidden') ?
         <BaseHTMLInput
           { ...inputProps }
         />
-      :
-      <InputInside
-        { ...insideContainerProps }
-      >
-        <BaseHTMLInput
-          { ...inputProps }
-        />
-      </InputInside>
+        :
+        <InputInside
+          { ...insideContainerProps }
+        >
+          <BaseHTMLInput
+            { ...inputProps }
+          />
+        </InputInside>
       }
     </InputHolder>
-  )}, 
-  comparisonFunction
-)
+  )}
 
 Input.propTypes = {
   /**
@@ -392,12 +409,24 @@ Input.propTypes = {
     'month',
     'tel'
   ]),
+
+  /**
+   * Which kind of limit to count
+   */
+  limitType:PropTypes.oneOf(['words', 'letters', undefined]),
+
+
+  /**
+   * How many letters or words to count
+   */
+  limitCount:PropTypes.number,
 }
 
 Input.defaultProps = {
+  limitType:'letters'
   //placeholder:'please enter your email here' //TODO remove
   /* height:'2.2em',
      as:'p', */
 }
 
-export default Input
+export default memo(Input, comparisonFunction)

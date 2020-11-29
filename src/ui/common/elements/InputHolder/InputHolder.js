@@ -54,6 +54,9 @@ const InputHolder = ({
   descriptionAs,
   descriptionClassName,
   descriptionStyle,
+
+  suffix,
+  suffixError,
 }) => {
   return(
     <Wrapper
@@ -85,31 +88,46 @@ const InputHolder = ({
         </InputLabel>
       }
       { children }
-      { (description || errors || valid) &&
-        <InputDescription
-          as={ descriptionAs }
-          className={[
-            descriptionClassName,
-            errors && C.error,
-            valid && C.valid
-          ].filter( e => e ).join(' ') }
-          style={ descriptionStyle }
-        >
-          {errors && (
-            ['string', 'object'].includes(typeof errors) ? errors :
-            <ul>
-                { errors && errors.map((e, i) => <li
-                key={i}
-                className='x-error c-x'
-                                               >
-                {e}
-                                               </li>) }
-              </ul>
+      { (description || suffix || errors || valid) &&
+        <div className='content'>
+          { (description || errors || valid) &&
+            <InputDescription
+              as={ descriptionAs }
+              className={[
+                '',
+                descriptionClassName,
+                errors && C.error,
+                valid && C.valid
+              ].filter( e => e ).join(' ') }
+              style={ descriptionStyle }
+            >
+              {errors && (
+                ['string', 'object'].includes(typeof errors) ? errors :
+                  <ul>
+                  { errors && errors.map((e, i) => <li
+                      key={i}
+                      className='x-error c-x'
+                                                     >
+                      {e}
+                    </li>) }
+                </ul>
 
-          )
-          }
-          { !errors && (valid || description) }
-        </InputDescription>
+              )
+              }
+              { !errors && (valid || description) }
+            </InputDescription>}
+          { suffix &&
+            <InputDescription
+              as={ descriptionAs }
+              className={[
+                'suffix',
+                suffixError && C.error,
+              ].filter( e => e ).join(' ') }
+              style={ descriptionStyle }
+            >
+              { suffix }
+            </InputDescription>}
+        </div>
       }
     </Wrapper>
   )
@@ -244,6 +262,16 @@ InputHolder.propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
+
+  /**
+   * A suffix to add right of the description
+   */
+  suffix:PropTypes.string,
+
+  /**
+   * Whether the suffix is in error state
+   */
+  suffixErrorx:PropTypes.boolean,
 }
 
 InputHolder.defaultProps = {

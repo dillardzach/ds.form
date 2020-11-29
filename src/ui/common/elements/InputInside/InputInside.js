@@ -14,7 +14,7 @@ import C from 'ui/cssClasses'
 /* Relative imports
    import styles from './inside.scss'
 
-    import('./inside.scss' 
+    import('./inside.scss'
 }
 */
 
@@ -77,7 +77,9 @@ const InputInside = React.forwardRef(({
           className={ sidesClassName }
           style={ sidesStyle }
         >
-          { leftSide }
+          <p>
+            { leftSide }
+          </p>
         </InputSide>
       }
       {
@@ -105,7 +107,9 @@ const InputInside = React.forwardRef(({
           className={ sidesClassName }
           style={ sidesStyle }
         >
-          { rightSide }
+          <p>
+            { rightSide }
+          </p>
         </InputSide>
       }
     </div>
