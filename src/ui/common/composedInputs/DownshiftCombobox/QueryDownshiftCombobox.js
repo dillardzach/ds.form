@@ -8,8 +8,6 @@ import DownshiftCombobox from './DownshiftCombobox.js'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
 
-import { InlineLoader } from 'ds-core'
-
 //Intl
 
 /* import { FormattedMessage} from "react-intl";
@@ -18,7 +16,7 @@ import { InlineLoader } from 'ds-core'
 
 //Config
 
-//import C from 'ui/cssClasses'
+import C from 'ui/cssClasses'
 
 /* Relative imports
    import styles from './query_downshift_combobox.scss' */
@@ -62,13 +60,9 @@ const QueryDownshiftCombobox = ({
   [data, loading])
 
 
-  if (loading) return (
-    <InlineLoader/>
 
 
-  )
-
-  else return (
+  return (
     <DownshiftCombobox
       className={
         [
@@ -77,9 +71,19 @@ const QueryDownshiftCombobox = ({
           className
         ].filter(e => e).join(' ')
       }
+      loading={ loading }
       id={ id }
       style={ style }
       options={ finalData }
+      suffix={
+        <a
+          onClick={() => refetch()}
+          className={ C.pointer }
+        >
+          Reload
+        </a>
+
+      }
       { ...otherProps }
     />
   )}

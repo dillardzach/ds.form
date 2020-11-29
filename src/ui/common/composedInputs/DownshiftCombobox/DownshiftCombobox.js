@@ -32,7 +32,7 @@ const baseClassName = 'downshift_combobox'
  * Use `DownshiftCombobox` to
  * Has color `x`
  */
-const DownshiftCombobox = memo(({
+const DownshiftCombobox = ({
   id,
   className,
   style,
@@ -102,7 +102,10 @@ const DownshiftCombobox = memo(({
   setInputValue,
   setInputTouched,
   touched,
-  value
+  value,
+
+  suffix,
+  suffixError
 
 
 }) => {
@@ -126,16 +129,16 @@ const DownshiftCombobox = memo(({
 
   const displayItem = useCallback(userDisplayItem ?
     userDisplayItem : (areItemsObjects ?
-      (item => (item ? item._string || item.label : '')) :
-      (item => (item ? String(item) : ''))
+      (item => <span>{(item ? item._string || item.label : '')}</span>) :
+      (item => <span>{(item ? String(item) : '')}</span>)
     ),
   [displayItem, areItemsObjects]
   )
 
   const displaySelectedItem = useCallback(userDisplaySelectedItem ?
     userDisplaySelectedItem : (areItemsObjects ?
-      (item => (item ? item._string || item.label : '')) :
-      (item => (item ? String(item) : ''))
+      (item => <span>{(item ? item._string || item.label : '')}</span>) :
+      (item => <span>{(item ? String(item) : '')}</span>)
     ),
   [userDisplaySelectedItem, areItemsObjects]
   )
@@ -275,6 +278,8 @@ const DownshiftCombobox = memo(({
     descriptionStyle,
 
     labelAdditionalProps:getLabelProps(),
+    suffix,
+    suffixError,
   }
 
   const insideContainerProps = {
@@ -285,7 +290,7 @@ const DownshiftCombobox = memo(({
     rightSide:loading ? (<InlineLoader
       type='circle'
       className='x-blue'
-      height='2.3em'
+      height='2em'
     />) : !selectedItem ? (
                            <Button
         { ...getToggleButtonProps() }
@@ -430,9 +435,7 @@ const DownshiftCombobox = memo(({
     </Holder>
 
   )
-},
-  comparisonFunction
-)
+}
 
 DownshiftCombobox.propTypes = {
   /**
@@ -743,6 +746,16 @@ DownshiftCombobox.propTypes = {
    */
   value:PropTypes.string,
 
+  /**
+   * A suffix to add right of the description
+   */
+  suffix:PropTypes.string,
+
+  /**
+   * Whether the suffix is in error state
+   */
+  suffixErrorx:PropTypes.boolean,
+
 
   /*
   : PropTypes.shape({
@@ -766,4 +779,4 @@ DownshiftCombobox.defaultProps = {
      as:'p', */
 }
 
-export default DownshiftCombobox
+export default memo(DownshiftCombobox, comparisonFunction)
