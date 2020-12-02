@@ -1,7 +1,7 @@
 {
   "name": "@fwrlines/ds.form",
   "author": "",
-  "version": "2.0.0-alpha.11",
+  "version": "2.0.0-alpha.12",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
