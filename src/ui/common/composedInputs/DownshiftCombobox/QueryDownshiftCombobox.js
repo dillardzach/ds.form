@@ -14,6 +14,9 @@ import { useQuery, useMutation } from '@apollo/client'
    import messages from "./messages";
     <FormattedMessage {...messages.title} /> */
 
+import {FormattedMessage} from 'react-intl'
+import messages from './messages'
+
 //Config
 
 import C from 'ui/cssClasses'
@@ -80,7 +83,8 @@ const QueryDownshiftCombobox = ({
           onClick={() => refetch()}
           className={ C.pointer }
         >
-          Reload
+          <FormattedMessage {...messages.reload}/>
+          .
         </a>
 
       }
