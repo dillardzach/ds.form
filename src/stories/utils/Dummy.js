@@ -117,7 +117,6 @@ const LIST = [
   'Melon',
   'Cantaloupe',
   'Honeydew melon',
-  'Watermelon',
   'Rock melon',
   'Nectarine',
   'Orange',

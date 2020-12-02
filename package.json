@@ -30,7 +30,7 @@
     "bd": "npm run build&&npm run commit ",
     "npre": "nodemon --watch src --ignore 'src/stories' --exec 'npm run build:es && echo done'",
     "postinstall": "node ./scripts/postinstall.js",
-    "relink": "npm link @fwrlines/ds.core && npm link @fwrlines/utilsi && npm link @fwrlines/assets",
+    "relink": "npm link @fwrlines/ds.core && npm link @fwrlines/utils && npm link @fwrlines/assets",
     "version:alpha": "npm version prerelease --preid=alpha",
     "version:beta": "npm version prerelease --preid=beta"
   },
@@ -44,7 +44,7 @@
     "@fwrlines/utils": "latest",
     "compressorjs": "^1.0.6",
     "date-fns": "^2.15.0",
-    "downshift": "^6.0.2",
+    "downshift": "^6.0.6",
     "graphql": "^15.1.0",
     "graphql-tag": "^2.10.3",
     "history": "^4.10.1",

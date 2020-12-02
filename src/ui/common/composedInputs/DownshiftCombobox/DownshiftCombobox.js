@@ -17,6 +17,9 @@ import {
 
 import { comparisonFunction } from 'ui/utils'
 
+import {FormattedMessage} from 'react-intl'
+import messages from './messages'
+
 /* Relative imports
    import styles from './downshift_combobox.scss' */
 import { isBackend } from 'ui/isBackend'
@@ -149,7 +152,9 @@ const DownshiftCombobox = ({
         return items.filter(e =>(e._string || e.label).match(new RegExp(value, 'gi')))
       }) :
       ((items, value) => {
-        return items.filter(e => e.match(new RegExp(value, 'gi')))
+        const fi = items.filter((e, i) =>  e.match(new RegExp(value, 'gi'))
+        )
+        return fi
       })
       /* (item => (item ? item.label : '')) :
          (item => (item ? String(item) : '')) */
@@ -210,7 +215,7 @@ const DownshiftCombobox = ({
       },
       {}
     ),
-    []
+    [filteredItems.length]
   )
 
   const {
@@ -397,7 +402,7 @@ const DownshiftCombobox = ({
             className='compact'
           >
             {
-              filteredItems.map((item, index) => (
+              filteredItems.length ? filteredItems.map((item, index) => (
                 <li
                   className={ [
                     itemClassName,
@@ -414,7 +419,13 @@ const DownshiftCombobox = ({
                       displayItem(item)
                   }
                 </li>
-              ))}
+              )) :
+                (
+                  <li>
+                    <FormattedMessage { ...messages.notFound }/>
+                  </li>
+                )
+            }
           </ul>
         </Popup>
 

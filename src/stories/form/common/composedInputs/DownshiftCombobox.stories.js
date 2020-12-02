@@ -44,6 +44,7 @@ export const Default = () => {
         aesthetic='mars'
         value={ value }
         setInputValue={ setValue }
+        debug
       />
       <p>{ value  }</p>
     </>
