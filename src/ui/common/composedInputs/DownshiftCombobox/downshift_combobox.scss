@@ -7,7 +7,8 @@ Classes :
 
 */
 
-.downshift_combobox {
+.downshift_combobox,
+.downshift_multiple_combobox {
   .popup {
 
     //background: var(--y);
@@ -37,7 +38,11 @@ Classes :
 
   .inside {
     overflow-x: visible;
+  }
+}
 
+.downshift_combobox {
+  .inside {
     .selected-item {
       flex-grow: 99;
       padding: var(--form-input-compact-padding);
@@ -47,6 +52,25 @@ Classes :
         position: relative;
         top: 50%;
         transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+.downshift_multiple_combobox {
+  .selected-items {
+    margin: var(--form-label-margin);
+
+    > * {
+      margin: .1em;
+
+      & + * {
+
+
+      }
+
+      &:focus {
+        outline: 2px solid var(--form-input-focus-border-color) !important;
       }
     }
   }

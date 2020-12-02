@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 
 
 import DownshiftCombobox from './DownshiftCombobox.js'
+import DownshiftMultipleCombobox from './DownshiftMultipleCombobox.js'
+
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
 
@@ -42,6 +44,7 @@ const QueryDownshiftCombobox = ({
   style,
 
   query,
+  multiple,
 
   ...otherProps
 }) => {
@@ -62,11 +65,14 @@ const QueryDownshiftCombobox = ({
   }, '')]) || [],
   [data, loading])
 
-
+  const Component = useMemo(() => multiple ?
+    DownshiftMultipleCombobox : DownshiftCombobox,
+  [multiple]
+  )
 
 
   return (
-    <DownshiftCombobox
+    <Component
       className={
         [
           //styles[baseClassName],
@@ -114,6 +120,12 @@ QueryDownshiftCombobox.propTypes = {
    */
   query:PropTypes.string.isRequired,
 
+
+  /**
+   * Whether to allow multiple items selection
+   */
+  multiple:PropTypes.bool
+
   /*
   : PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -126,11 +138,8 @@ QueryDownshiftCombobox.propTypes = {
   */
 }
 
-/*
 QueryDownshiftCombobox.defaultProps = {
-  status: 'neutral',
-  //height:'2.2em',
-  //as:'p',
+  multiple:false
 }
-*/
+
 export default QueryDownshiftCombobox

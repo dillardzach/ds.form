@@ -1,8 +1,9 @@
 export { CardChoice } from './CardChoice'
 export { Choice } from './Choice'
-export { 
+export {
+  DownshiftCombobox,
+  DownshiftMultipleCombobox,
   QueryDownshiftCombobox,
-  DownshiftCombobox 
 } from './DownshiftCombobox'
 export { DownshiftSelect } from './DownshiftSelect'
 export { Input } from './Input'
@@ -12,4 +13,3 @@ export { Textarea } from './Textarea'
 export { Checkbox } from './Checkbox'
 export { SVGCheckbox } from './SVGCheckbox'
 export { Dropzone } from './Dropzone'
-export { DownshiftMultipleCombobox } from './DownshiftMultipleCombobox'

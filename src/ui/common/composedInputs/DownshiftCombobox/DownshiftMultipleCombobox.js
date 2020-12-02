@@ -30,7 +30,7 @@ import messages from './messages'
 import { isBackend } from 'ui/isBackend'
 
 if(!isBackend) {
-  import('./downshift_multiple_combobox.scss')
+  import('./downshift_combobox.scss') //Shared SCSS
 }
 
 const baseClassName = 'downshift_multiple_combobox'

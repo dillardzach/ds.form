@@ -157,6 +157,13 @@ const FormInput = ({
     })
   )
 
+  else if ( type == 'query-multiple-downshift-combobox' ) return(
+    displayComponent(QueryDownshiftCombobox, {
+      ...passedProps,
+      multiple:true
+    })
+  )
+
   else if ( type == 'dropzone' ) return(
     displayComponent(Dropzone, {
       ...passedProps
