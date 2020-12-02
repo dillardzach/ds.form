@@ -33,6 +33,7 @@ export {
   DownshiftSelect,
   DownshiftCombobox,
   QueryDownshiftCombobox,
+  DownshiftMultipleCombobox,
   Dropzone
 } from './composedInputs'
 

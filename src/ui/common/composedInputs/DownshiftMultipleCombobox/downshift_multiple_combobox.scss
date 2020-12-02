@@ -1,13 +1,13 @@
-/* @fwrlines/generator-react-component 1.4.0 */
+/* @fwrlines/generator-react-component 2.5.1 */
 
 /*
 
 Classes :
-.downshift_combobox : default
+.downshift_multiple_combobox : default
 
 */
 
-.downshift_combobox {
+.downshift_multiple_combobox {
   .popup {
 
     //background: var(--y);
@@ -37,16 +37,21 @@ Classes :
 
   .inside {
     overflow-x: visible;
+  }
 
-    .selected-item {
-      flex-grow: 99;
-      padding: var(--form-input-compact-padding);
+  .selected-items {
+    margin: var(--form-label-margin);
 
-      > * {
-        display: inline-block;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
+    > * {
+      margin: .1em;
+
+      & + * {
+
+
+      }
+
+      &:focus {
+        outline: 2px solid var(--form-input-focus-border-color) !important;
       }
     }
   }

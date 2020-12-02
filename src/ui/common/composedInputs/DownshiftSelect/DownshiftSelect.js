@@ -29,7 +29,7 @@ const baseClassName = 'downshift_select'
  * Use `DownshiftSelect` to
  * Has color `x`
  */
-const DownshiftSelect = memo(({
+const DownshiftSelect = ({
   id,
   className,
   style,
@@ -292,9 +292,7 @@ const DownshiftSelect = memo(({
         </div>
       </div>
     </Holder>
-  )},
-  comparisonFunction
-)
+  )}
 
 DownshiftSelect.propTypes = {
   /**
@@ -591,4 +589,4 @@ DownshiftSelect.defaultProps = {
      as:'p', */
 }
 
-export default DownshiftSelect
+export default memo(DownshiftSelect, comparisonFunction)

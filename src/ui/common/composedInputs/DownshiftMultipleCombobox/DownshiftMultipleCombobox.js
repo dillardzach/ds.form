@@ -1,41 +1,48 @@
-/* @fwrlines/generator-react-component 1.4.0 */
+/* @fwrlines/generator-react-component 2.5.1 */
 import * as React from 'react'
-import { memo, useEffect, useState, useCallback, useMemo, useReducer } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useCombobox } from 'downshift'
 import { BaseHTMLInput } from '../../baseInputs'
 
-import C from 'ui/cssClasses'
+import { useCombobox, useMultipleSelection } from 'downshift'
 
-import { Popup, InlineLoader, Button } from 'ds-core'
+import { comparisonFunction } from 'ui/utils'
+
+import { Popup, Label, InlineLoader, Button } from 'ds-core'
 
 import {
   InputInside,
   InputHolder as Holder,
 } from '../../elements'
 
-import { comparisonFunction } from 'ui/utils'
+//Intl
 
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage} from 'react-intl'
 import messages from './messages'
 
+//Config
+
+//import C from 'ui/cssClasses'
+
 /* Relative imports
-   import styles from './downshift_combobox.scss' */
+   import styles from './downshift_multiple_combobox.scss' */
 import { isBackend } from 'ui/isBackend'
 
 if(!isBackend) {
-  import('./downshift_combobox.scss')
+  import('./downshift_multiple_combobox.scss')
 }
 
-const baseClassName = 'downshift_combobox'
+const baseClassName = 'downshift_multiple_combobox'
+const selectedItemClassName = 'selected'
+// TODO merge styles with other combobox
 
 
 /**
- * Use `DownshiftCombobox` to
+ * Use `DownshiftMultipleCombobox` to
  * Has color `x`
  */
-const DownshiftCombobox = ({
+const DownshiftMultipleCombobox = ({
   id,
   className,
   style,
@@ -66,18 +73,11 @@ const DownshiftCombobox = ({
   descriptionClassName,
   descriptionStyle,
 
-  // Start of downshift props
+  //options:allItems, //originally called items in downshift
   options:allItems, //originally called items in downshift
   itemToString:userItemToString,
-  onSelectedItemChange:userOnSelectedItemChange,
-  stateReducer,
+  onSelectedItemsChange:userOnSelectedItemsChange,
 
-  initialHighlightedIndex,
-  defaultSelectedItem,
-  defaultIsOpen,
-  onHighlightedIndexChange,
-  onIsOpenChange,
-  onStateChange,
   circularNavigation,
   menuId,
   toggleButtonId,
@@ -96,7 +96,8 @@ const DownshiftCombobox = ({
   displaySelectedItem:userDisplaySelectedItem,
   filterItems:userFilterItems,
 
-  //Unique to this input type
+  selectedItemDefaultClassName,
+
   placeholder,
   loading,
 
@@ -109,11 +110,9 @@ const DownshiftCombobox = ({
 
   suffix,
   suffixError
-
-
 }) => {
 
-
+  const [textInputValue, setTextInputValue] = useState('')
 
   const areItemsObjects = useMemo(() =>
     allItems.length ?
@@ -135,15 +134,7 @@ const DownshiftCombobox = ({
       (item => <span>{(item ? item._string || item.label : '')}</span>) :
       (item => <span>{(item ? String(item) : '')}</span>)
     ),
-  [displayItem, areItemsObjects]
-  )
-
-  const displaySelectedItem = useCallback(userDisplaySelectedItem ?
-    userDisplaySelectedItem : (areItemsObjects ?
-      (item => <span>{(item ? item._string || item.label : '')}</span>) :
-      (item => <span>{(item ? String(item) : '')}</span>)
-    ),
-  [userDisplaySelectedItem, areItemsObjects]
+  [userDisplayItem, areItemsObjects]
   )
 
   const filterItems = useCallback(userFilterItems ?
@@ -162,48 +153,146 @@ const DownshiftCombobox = ({
   [userFilterItems, areItemsObjects]
   )
 
-
-  const onSelectedItemChange = useCallback((setInputValue || userOnSelectedItemChange) ?
-    userOnSelectedItemChange ? userOnSelectedItemChange : (changes) => {
-      //console.log('DS change', c)
-      !touched && setInputTouched?.()
-      const stringifiedItem = itemToString(changes.selectedItem)
-      setInputValue(
-        stringifiedItem.length ? stringifiedItem : null
-      )
-    } : () => null)
-
-  const selectedItem = value ? allItems.find((e) => itemToString(e) == value) : undefined
-
   const [filteredItems, setFilteredItems] = useState(allItems)
-
 
   const onInputValueChange = ({inputValue:localValue}) =>{
     //console.log('Input value changed to', localValue, allItems)
     setFilteredItems(filterItems(allItems, localValue))
   }
 
+  const onSelectedItemsChange = useCallback((setInputValue || userOnSelectedItemsChange) ?
+    userOnSelectedItemsChange ? userOnSelectedItemsChange : (changes) => {
+      //console.log('DS change', c)
+      !touched && setInputTouched?.()
+      setInputValue(
+        changes.selectedItems.length ?
+          changes.selectedItems.map(e => itemToString(e)) :
+          null
+      )
+    } : () => null)
+
+
+  const initialSelectedItems = useMemo(() => {
+    if (value) {
+      const foundItems = allItems.filter((e) => value.includes(itemToString(e)))
+      return foundItems.length ? foundItems : []
+    }
+    else return []
+
+  }, [allItems, value])
+
+
+  const {
+    getSelectedItemProps,
+    getDropdownProps,
+    addSelectedItem,
+    removeSelectedItem,
+    selectedItems,
+  } = useMultipleSelection({
+    onSelectedItemsChange,
+    initialSelectedItems
+  })
+
+  const displaySelectedItem = useMemo(() => {
+    if(userDisplaySelectedItem) return userDisplaySelectedItem
+    else {
+      const Wrapper = Button
+
+      /* eslint-disable react/prop-types */
+      const Element = ({
+        item:selectedItem,
+        className=selectedItemDefaultClassName,
+        index,
+        children
+      }) => (
+        <Wrapper
+          key={`selected-item-${index}`}
+          className={[
+          //styles[baseClassName],
+            selectedItemClassName,
+            className,
+            's-1',
+          ].filter(e => e).join(' ')
+          }
+          compact
+          {...getSelectedItemProps({selectedItem, index})}
+          onClick={() => removeSelectedItem(selectedItem)}
+          icon='p'
+          iconSide='r'
+        >
+          { children }
+        </Wrapper>
+      )
+
+
+      if (areItemsObjects) return (
+        (item, index) =>
+          <Element
+            item={ item }
+            index={ index }
+            className={ item.className || item.class }
+          >
+            {(item ? item._string || item.label : '')}
+          </Element>
+      )
+
+
+      else return (
+        (item, index) =>
+          <Element
+            item={ item }
+            index={ index }
+          >
+            {(item ? String(item) : '')}
+          </Element>
+      )
+      /* eslint-enable react/prop-types */
+
+    }},
+  [userDisplaySelectedItem, areItemsObjects]
+  )
+
 
   const allUseComboboxProps = {
-    items              :filteredItems,
+    items        :filteredItems,
     itemToString,
+    onStateChange:({inputValue, type, selectedItem}) => {
+      switch (type) {
+      case useCombobox.stateChangeTypes.InputChange:
+        setTextInputValue(inputValue)
+        break
+      case useCombobox.stateChangeTypes.InputKeyDownEnter:
+      case useCombobox.stateChangeTypes.ItemClick:
+      case useCombobox.stateChangeTypes.InputBlur:
+        if (selectedItem) {
+          setTextInputValue('')
+          addSelectedItem(selectedItem)
+          selectItem(null)
+        }
+
+        break
+      default:
+        break
+      }
+    },
+    onInputValueChange,
+    circularNavigation,
+    id:userInputId,
+    labelId, //This one prop comes from outside !
+    menuId,
+    toggleButtonId,
+    getItemId,
+    /*
     onSelectedItemChange,
     stateReducer,
     initialSelectedItem:selectedItem,
     initialHighlightedIndex,
-    /* initialInputValue,*/
-    onInputValueChange,
+    // initialInputValue,
     defaultSelectedItem,//TODO need to control this
     defaultIsOpen,
     onHighlightedIndexChange,
     onIsOpenChange,
     onStateChange,
-    circularNavigation,
-    id                 :userInputId,
-    labelId, //This one prop comes from outside !
-    menuId,
-    toggleButtonId,
-    getItemId,
 
     /* inputValue:value,
        selectedItem, */
@@ -223,7 +312,6 @@ const DownshiftCombobox = ({
 
   const {
     isOpen,
-    selectedItem:uncontrolledSelectedItem, //Unused because we control the input
     getToggleButtonProps,
     getLabelProps,
     getMenuProps,
@@ -231,31 +319,16 @@ const DownshiftCombobox = ({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
-    reset:resetDownshift
-  } = useCombobox(finalUseComboboxProps)
-
-  const resetComponent = useCallback(() => {
-    resetDownshift()
-    setInputValue(null)
-  }, [resetDownshift, setInputValue])
-
-
-  //Not sure what this effect does
-  useEffect(() =>  {
-    if(!filteredItems.length) {
-      setFilteredItems(allItems)
-      resetDownshift()
-    }
-  }, [
-    allItems
-  ]
+    selectItem,
+  } = useCombobox(finalUseComboboxProps
+    /* inputValue,
+       items        :getFilteredItems(items), */
   )
 
   const {
     id:inputId,
     ...otherSearchInputProps
-  } = getInputProps()
-
+  } = getInputProps(getDropdownProps({preventKeyAction: isOpen}))
 
   const holderProps = {
     id,
@@ -299,22 +372,22 @@ const DownshiftCombobox = ({
       type='circle'
       className='x-blue'
       height='2em'
-    />) : !selectedItem ?
+    />) :
       ( <Button
         { ...getToggleButtonProps() }
         className='x-subtitle c-x'
         simple
         icon='j'
         aria-label={'toggle menu'}
-        />
+      />
 
-      ) :
+      ) /*:
       (<Button
         simple
         className='x-subtitle c-x'
         icon='p'
         onClick={ resetComponent }
-      />)
+      />)*/
     ,
     ...getComboboxProps()
     /*
@@ -350,6 +423,7 @@ const DownshiftCombobox = ({
     ...otherSearchInputProps
   }
 
+
   return (
     <Holder
       className={
@@ -361,33 +435,16 @@ const DownshiftCombobox = ({
       }
       { ...holderProps }
     >
-      {/* leftSide &&
-          <InputSide
-            className={ sidesClassName }
-            style={ sidesStyle }
-          >
-            { leftSide }
-          </InputSide>
-          }
-        {
-          leftIcon &&
-            <InputIcon
-              className={ iconsClassName }
-              style={ iconsStyle }
-              icon={ leftIcon }
-            />
-        */}
+      <div className='selected-items'>
+        {selectedItems.map((selectedItem, index) => displaySelectedItem(selectedItem, index))}
+      </div>
       <InputInside
         { ...insideContainerProps }
       >
         {
-          selectedItem ?
-            <div className='selected-item'>
-              {displayItem(selectedItem)}
-            </div>:
-            <BaseHTMLInput
-              { ...searchInputProps }
-            />
+          <BaseHTMLInput
+            { ...searchInputProps }
+          />
         }
         <Popup
           className={ [
@@ -414,13 +471,11 @@ const DownshiftCombobox = ({
                   ].filter(e => e).join(' ')
                   }
                   style={ itemStyle }
-                  key={`${itemToString(item)}`}
-                  {...getItemProps({ item, index })}
+                  key={`${item}${index}`}
+                  {...getItemProps({item, index})}
                 >
                   {
-                    selectedItem === item ?
-                      displaySelectedItem(item) :
-                      displayItem(item)
+                    displayItem(item)
                   }
                 </li>
               )) :
@@ -428,12 +483,11 @@ const DownshiftCombobox = ({
                   <li>
                     <FormattedMessage { ...messages.notFound }/>
                   </li>
-                )
-            }
+                )}
           </ul>
         </Popup>
-
       </InputInside>
+
       { debug &&
         <div>
           <pre>
@@ -448,11 +502,9 @@ const DownshiftCombobox = ({
         </div>
       }
     </Holder>
+  )}
 
-  )
-}
-
-DownshiftCombobox.propTypes = {
+DownshiftMultipleCombobox.propTypes = {
   /**
    * Provide an HTML id to this element
    */
@@ -596,6 +648,7 @@ DownshiftCombobox.propTypes = {
     )
   ]),
 
+
   /**
    * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#itemtostring
    */
@@ -604,45 +657,7 @@ DownshiftCombobox.propTypes = {
   /**
    * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#onselecteditemchange
    */
-  onSelectedItemChange:PropTypes.func,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#itemtostring
-   */
-  stateReducer:PropTypes.func,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#initialHighlightedIndex
-   */
-  initialHighlightedIndex:PropTypes.number,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#defaultselecteditem
-   */
-  defaultSelectedItem:PropTypes.oneOf([
-    PropTypes.object,
-    PropTypes.string
-  ]),
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#defaultisopen
-   */
-  defaultIsOpen:PropTypes.bool,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#onhighlightedindexchange
-   */
-  onHighlightedIndexChange:PropTypes.func,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#onisopenchange
-   */
-  onIsOpenChange:PropTypes.func,
-
-  /**
-   * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#onstatechange
-   */
-  onStateChange:PropTypes.func,
+  onSelectedItemsChange:PropTypes.func,
 
   /**
    * https://github.com/downshift-js/downshift/tree/master/src/hooks/useSelect#circularnavigation
@@ -722,6 +737,11 @@ DownshiftCombobox.propTypes = {
   filterItems:PropTypes.array,
 
   /**
+   * The default class to apply to the element's selected items buttons. Note that this is automatically trumped if the item has .class or .className key.
+   */
+  selectedItemDefaultClassName:PropTypes.string,
+
+  /**
    * placeholder for the input
    */
   placeholder:PropTypes.string,
@@ -765,28 +785,20 @@ DownshiftCombobox.propTypes = {
    * Whether the suffix is in error state
    */
   suffixError:PropTypes.boolean,
-
-
-  /*
-  : PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-  }),
-  : PropTypes.func,
-  : PropTypes.func,
-  : PropTypes.oneOf(['', ''])
-  */
 }
 
-DownshiftCombobox.defaultProps = {
-  debug               :false,
-  loading             :false,
-  circularNavigation  :true,
-  popupPreferredOrder :['bottom', 'top'],
-  highlightedClassName:'b-light-y'
+DownshiftMultipleCombobox.defaultProps = {
+  debug                       :false,
+  loading                     :false,
+  circularNavigation          :true,
+  popupPreferredOrder         :['bottom', 'top'],
+  highlightedClassName        :'b-light-y',
+  selectedItemDefaultClassName:'x-green'
+  /* height:'2.2em',
+     as:'p', */
   /* height:'2.2em',
      as:'p', */
 }
 
-export default memo(DownshiftCombobox, comparisonFunction)
+export default DownshiftMultipleCombobox
+//export default memo(DownshiftMultipleCombobox, comparisonFunction)
