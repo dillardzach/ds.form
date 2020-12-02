@@ -139,18 +139,18 @@ const DownshiftMultipleCombobox = ({
 
   const filterItems = useCallback(userFilterItems ?
     userFilterItems : (areItemsObjects ?
-      ((items, value) => {
-        return items.filter(e =>(e._string || e.label).match(new RegExp(value, 'gi')))
+      ((items, searchValue) => {
+        return items.filter(e => !(value.includes(itemToString(e))) && (e._string || e.label).match(new RegExp(searchValue, 'gi')))
       }) :
-      ((items, value) => {
-        const fi = items.filter((e, i) =>  e.match(new RegExp(value, 'gi'))
+      ((items, searchValue) => {
+        const fi = items.filter((e, i) => !(value.includes(itemToString(e))) && e.match(new RegExp(searchValue, 'gi'))
         )
         return fi
       })
       /* (item => (item ? item.label : '')) :
          (item => (item ? String(item) : '')) */
     ),
-  [userFilterItems, areItemsObjects]
+  [userFilterItems, areItemsObjects, value]
   )
 
   const [filteredItems, setFilteredItems] = useState(allItems)

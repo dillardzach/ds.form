@@ -62,18 +62,32 @@ export const Compact = () => (
   />
 )
 
-export const Dict = () => (
-  <DownshiftCombobox
-    inputId='fruit'
-    label='Please select your favourite fruit'
-    options={ LIST.map((e, i) => ({
-      label:e,
-      value:i
-    })) }
-    description='Here is a list of very tasty fruits you can choose your favourite from'
-    aesthetic='mars'
-  />
-)
+export const Dict = () => {
+  const [value, setValue] = useState()
+
+  return(
+    <>
+      <DownshiftCombobox
+        inputId='fruit'
+        label='Please select your favourite fruit'
+        options={ LIST.map((e, i) => ({
+          label:e,
+          value:`item-${i}`
+        })) }
+        description='Here is a list of very tasty fruits you can choose your favourite from'
+        aesthetic='mars'
+        itemToString={
+          (item) => {
+            return item ? item.value : ''
+
+          }}
+        value={ value }
+        setInputValue={ setValue }
+      />
+      <p>{ value  }</p>
+    </>
+  )
+}
 
 export const Loading = () => (
   <DownshiftCombobox

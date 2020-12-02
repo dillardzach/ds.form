@@ -63,8 +63,31 @@ export const Default = () => {
 
 //Default.parameters = storyParameters
 
-export const Variant = () => (
-  <h1>LO</h1>
-)
+export const Dict = () => {
+  const [value, setValue] = useState(['item-0', 'item-5'])
+
+  return(
+    <>
+      <DownshiftMultipleCombobox
+        inputId='fruits'
+        label='Please select your favourite fruits'
+        options={ LIST.map((e, i) => ({
+          label:e,
+          value:`item-${i}`
+        })) }
+        description='Here is a list of very tasty fruits you can choose your favourites from'
+        aesthetic='mars'
+        itemToString={
+          (item) => {
+            return item ? item.value : ''
+
+          }}
+        value={ value }
+        setInputValue={ setValue }
+      />
+      <p>{ value  }</p>
+    </>
+  )
+}
 
 //Variant.parameters = storyParameters

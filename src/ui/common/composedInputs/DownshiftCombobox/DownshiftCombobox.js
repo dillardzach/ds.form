@@ -165,7 +165,6 @@ const DownshiftCombobox = ({
 
   const onSelectedItemChange = useCallback((setInputValue || userOnSelectedItemChange) ?
     userOnSelectedItemChange ? userOnSelectedItemChange : (changes) => {
-      //console.log('DS change', c)
       !touched && setInputTouched?.()
       const stringifiedItem = itemToString(changes.selectedItem)
       setInputValue(
@@ -241,6 +240,7 @@ const DownshiftCombobox = ({
 
 
   //Not sure what this effect does
+  /*
   useEffect(() =>  {
     if(!filteredItems.length) {
       setFilteredItems(allItems)
@@ -249,7 +249,7 @@ const DownshiftCombobox = ({
   }, [
     allItems
   ]
-  )
+  )*/
 
   const {
     id:inputId,
