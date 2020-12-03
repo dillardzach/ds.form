@@ -233,6 +233,7 @@ const DownshiftCombobox = ({
     getItemProps,
     reset:resetDownshift,
     inputValue:comboboxInputValue,
+    selectItem,
   } = useCombobox(finalUseComboboxProps)
 
   const resetComponent = useCallback(() => {
@@ -245,6 +246,17 @@ const DownshiftCombobox = ({
       setFilteredItems(allItems)
     }
   }, [allItems.length])
+
+  /* Atm the input is controlled ? TODO harmonize
+  useEffect(() => {
+    if(
+      (!loading && allItems.length) && (
+        value != comboboxInputValue
+      )
+    )
+
+  }, [value, allItems.length])
+  */
 
 
   //Not sure what this effect does

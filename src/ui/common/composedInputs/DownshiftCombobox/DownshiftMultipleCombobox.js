@@ -16,6 +16,8 @@ import {
   InputHolder as Holder,
 } from '../../elements'
 
+import isEqual from 'lodash.isequal'
+
 //Intl
 
 import { FormattedMessage} from 'react-intl'
@@ -112,8 +114,6 @@ const DownshiftMultipleCombobox = ({
   suffixError
 }) => {
 
-  console.log('OPTIONS ARE', allItems)
-
   const [textInputValue, setTextInputValue] = useState('')
 
   const areItemsObjects = useMemo(() =>
@@ -173,14 +173,12 @@ const DownshiftMultipleCombobox = ({
     } : () => null)
 
 
+  /* TODO this is atm taken care of in the next effect. But its true by providing an initial value we would ssave a render */
+  /*
   const initialSelectedItems = useMemo(() => {
-    if (value) {
-      const foundItems = allItems.filter((e) => value.includes(itemToString(e)))
-      return foundItems.length ? foundItems : []
-    }
-    else return []
 
   }, [allItems, value])
+  */
 
 
   const {
@@ -188,11 +186,29 @@ const DownshiftMultipleCombobox = ({
     getDropdownProps,
     addSelectedItem,
     removeSelectedItem,
+    setSelectedItems,
     selectedItems,
   } = useMultipleSelection({
     onSelectedItemsChange,
-    initialSelectedItems
+    //initialSelectedItems
   })
+
+  const selectedItemsToString = useMemo(() => selectedItems.map(e => itemToString(e)), [selectedItems])
+
+  //If values are received, we update the multi select. This also takes care of the initial setUp of the vars
+  useEffect(() => {
+    if(
+      (!loading && allItems.length) && (
+        (value && !isEqual(value, selectedItemsToString))
+      || (!value && selectedItemsToString.length))
+    ) {
+      if (value) {
+        const foundItems = allItems.filter((e) => value.includes(itemToString(e)))
+        foundItems.length ? setSelectedItems(foundItems) : setSelectedItems([])
+      }
+      else return setSelectedItems([])
+    }
+  }, [value, allItems.length])
 
   const displaySelectedItem = useMemo(() => {
     if(userDisplaySelectedItem) return userDisplaySelectedItem
