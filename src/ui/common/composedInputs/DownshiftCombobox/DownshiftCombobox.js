@@ -113,6 +113,7 @@ const DownshiftCombobox = ({
 
 }) => {
 
+  //console.log('OPTIONS ARE', allItems)
 
 
   const areItemsObjects = useMemo(() =>
@@ -217,7 +218,7 @@ const DownshiftCombobox = ({
       },
       {}
     ),
-    [filteredItems.length]
+    [filteredItems.length, allItems.length]
   )
 
   const {
@@ -230,13 +231,20 @@ const DownshiftCombobox = ({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
-    reset:resetDownshift
+    reset:resetDownshift,
+    inputValue:comboboxInputValue,
   } = useCombobox(finalUseComboboxProps)
 
   const resetComponent = useCallback(() => {
     resetDownshift()
     setInputValue(null)
   }, [resetDownshift, setInputValue])
+
+  useEffect(() => {
+    if (!filteredItems.length && allItems.length && !comboboxInputValue?.length) {
+      setFilteredItems(allItems)
+    }
+  }, [allItems.length])
 
 
   //Not sure what this effect does
@@ -789,4 +797,5 @@ DownshiftCombobox.defaultProps = {
      as:'p', */
 }
 
+//export default DownshiftCombobox
 export default memo(DownshiftCombobox, comparisonFunction)

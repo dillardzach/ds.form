@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 2.5.1 */
 import * as React from 'react'
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, useEffect, useCallback, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { BaseHTMLInput } from '../../baseInputs'
@@ -112,6 +112,8 @@ const DownshiftMultipleCombobox = ({
   suffixError
 }) => {
 
+  console.log('OPTIONS ARE', allItems)
+
   const [textInputValue, setTextInputValue] = useState('')
 
   const areItemsObjects = useMemo(() =>
@@ -156,7 +158,6 @@ const DownshiftMultipleCombobox = ({
   const [filteredItems, setFilteredItems] = useState(allItems)
 
   const onInputValueChange = ({inputValue:localValue}) =>{
-    //console.log('Input value changed to', localValue, allItems)
     setFilteredItems(filterItems(allItems, localValue))
   }
 
@@ -307,7 +308,7 @@ const DownshiftMultipleCombobox = ({
       },
       {}
     ),
-    [filteredItems.length]
+    [filteredItems.length, allItems.length]
   )
 
   const {
@@ -320,10 +321,17 @@ const DownshiftMultipleCombobox = ({
     highlightedIndex,
     getItemProps,
     selectItem,
+    inputValue:comboboxInputValue
   } = useCombobox(finalUseComboboxProps
     /* inputValue,
        items        :getFilteredItems(items), */
   )
+
+  useEffect(() => {
+    if (!filteredItems.length && allItems.length && !comboboxInputValue?.length) {
+      setFilteredItems(allItems)
+    }
+  }, [allItems.length])
 
   const {
     id:inputId,
@@ -800,5 +808,5 @@ DownshiftMultipleCombobox.defaultProps = {
      as:'p', */
 }
 
-export default DownshiftMultipleCombobox
-//export default memo(DownshiftMultipleCombobox, comparisonFunction)
+//export default DownshiftMultipleCombobox
+export default memo(DownshiftMultipleCombobox, comparisonFunction)
