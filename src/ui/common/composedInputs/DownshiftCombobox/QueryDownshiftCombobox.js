@@ -46,6 +46,8 @@ const QueryDownshiftCombobox = ({
   query,
   multiple,
 
+  allowReload,
+
   ...otherProps
 }) => {
 
@@ -85,6 +87,7 @@ const QueryDownshiftCombobox = ({
       style={ style }
       options={ finalData }
       suffix={
+        allowReload &&
         <a
           onClick={() => refetch()}
           className={ C.pointer }
@@ -124,7 +127,12 @@ QueryDownshiftCombobox.propTypes = {
   /**
    * Whether to allow multiple items selection
    */
-  multiple:PropTypes.bool
+  multiple:PropTypes.bool,
+
+  /**
+   * Whether to allow reload of the query
+   */
+  allowReload:PropTypes.bool
 
   /*
   : PropTypes.shape({
@@ -139,7 +147,8 @@ QueryDownshiftCombobox.propTypes = {
 }
 
 QueryDownshiftCombobox.defaultProps = {
-  multiple:false
+  multiple:false,
+  allowReload:true
 }
 
 export default QueryDownshiftCombobox
