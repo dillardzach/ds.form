@@ -322,6 +322,7 @@ const DownshiftCombobox = ({
     />) : !selectedItem ?
       ( <Button
         { ...getToggleButtonProps() }
+        compact
         className='x-subtitle c-x'
         simple
         icon='j'
@@ -330,6 +331,7 @@ const DownshiftCombobox = ({
 
       ) :
       (<Button
+        compact
         simple
         className='x-subtitle c-x'
         icon='p'

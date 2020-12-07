@@ -399,6 +399,7 @@ const DownshiftMultipleCombobox = ({
     />) :
       ( <Button
         { ...getToggleButtonProps() }
+        compact
         className='x-subtitle c-x'
         simple
         icon='j'

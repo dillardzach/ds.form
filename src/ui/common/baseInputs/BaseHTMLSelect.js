@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
  * Use `BaseHTMLSelect` to
  * Has color `x`
  */
-const BaseHTMLSelect = ({
+const BaseHTMLSelect = React.forwardRef(({
   id,
   className,
   style,
@@ -31,7 +31,7 @@ const BaseHTMLSelect = ({
   value,
 
   ...otherProps
-}) => {
+}, ref) => {
 
 
   return (
@@ -48,6 +48,7 @@ const BaseHTMLSelect = ({
       disabled={ disabled }
       name={ name }
       { ...otherProps }
+      ref={ ref }
     >
       { options.map((e,i) =>
         <option
@@ -63,6 +64,7 @@ const BaseHTMLSelect = ({
       }
     </select>
   )}
+)
 
 BaseHTMLSelect.propTypes = {
   /**
