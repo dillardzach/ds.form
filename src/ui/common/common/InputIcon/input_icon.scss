@@ -14,7 +14,7 @@ Classes :
       color: var(--form-input-color);
     }
     display: inline-block;
-    padding: var(--form-input-padding);
+    padding: var(--form-input-padding-side);
 
     p {
       position: relative;
@@ -65,7 +65,7 @@ Classes :
 
 .input.compact .inside {
   .input_icon {
-    padding: var(--form-input-compact-padding);
+    padding: var(--form-input-compact-padding-side);
   }
 }
 

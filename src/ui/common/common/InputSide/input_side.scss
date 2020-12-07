@@ -12,7 +12,7 @@ Classes :
     background: var(--form-side-background);
     color: var(--form-side-color);
     display: inline-block;
-    padding: var(--form-input-padding);
+    padding: var(--form-input-padding-side);
     white-space: nowrap;
 
     p {
@@ -25,6 +25,6 @@ Classes :
 
 .input.compact .inside {
   .side {
-    padding: var(--form-input-compact-padding);
+    padding: var(--form-input-compact-padding-side);
   }
 }
