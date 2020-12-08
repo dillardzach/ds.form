@@ -318,7 +318,7 @@ const DownshiftCombobox = ({
     rightSide:loading ? (<InlineLoader
       type='circle'
       className='x-blue'
-      height='2em'
+      height='1.7'
     />) : !selectedItem ?
       ( <Button
         { ...getToggleButtonProps() }
