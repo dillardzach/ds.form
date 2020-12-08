@@ -145,7 +145,9 @@ const Input = ({
     leftSide,
     rightSide:loading ? (<InlineLoader
       type='circle'
-      className='x-blue'
+      style={{
+        '--x':'var(--form-input-focus-border-color)'
+      }}
       height='1.7em'
     />) : rightSide,
 

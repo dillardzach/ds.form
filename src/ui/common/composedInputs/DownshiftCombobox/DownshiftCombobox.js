@@ -317,8 +317,10 @@ const DownshiftCombobox = ({
     //rightIcon:'j',
     rightSide:loading ? (<InlineLoader
       type='circle'
-      className='x-blue'
       height='1.7'
+      style={{
+        '--x':'var(--form-input-focus-border-color)'
+      }}
     />) : !selectedItem ?
       ( <Button
         { ...getToggleButtonProps() }
