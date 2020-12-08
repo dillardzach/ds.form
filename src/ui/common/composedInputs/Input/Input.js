@@ -10,6 +10,9 @@ import { BaseHTMLInput } from '../../baseInputs'
 import { InputHolder, InputInside } from '../../elements'
 
 import { comparisonFunction } from 'ui/utils'
+
+import { InlineLoader } from 'ds-core'
+
 /* Config
    import C from 'ui/cssClasses' */
 
@@ -80,6 +83,7 @@ const Input = ({
 
   //Specific to this input
   placeholder,
+  loading,
   type,
 
   limitType,
@@ -139,7 +143,12 @@ const Input = ({
     valid,
 
     leftSide,
-    rightSide,
+    rightSide:loading ? (<InlineLoader
+      type='circle'
+      className='x-blue'
+      height='2em'
+    />) : rightSide,
+
     sidesClassName,
     sidesStyle,
 
@@ -395,6 +404,11 @@ Input.propTypes = {
    * The input placeholder
    */
   placeholder:PropTypes.string,
+
+  /**
+   * Whether the input is in the loading state.
+   */
+  loading:PropTypes.bool,
 
   /**
    * The type of the input
