@@ -176,7 +176,6 @@ export const Disabled = () => (
 export const Compact = () => (
   <Select
     name='composer'
-    disabled
     compact
     options={[
       {

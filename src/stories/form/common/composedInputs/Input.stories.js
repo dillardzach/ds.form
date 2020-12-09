@@ -86,6 +86,18 @@ export const Disabled = () => (
   />
 )
 
+export const Loading = () => (
+  <Input
+    type='emailw'
+    name='formeremail'
+    disabled
+    label='Domain Name'
+    inputId='else2'
+    aesthetic='mars'
+    loading
+  />
+)
+
 export const Optional = () => (
   <Input
     type='email'

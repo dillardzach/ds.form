@@ -18,6 +18,8 @@ import {
 
 import QUERY from './common/composedInputs/graphql/allFruits.graphql'
 
+import { LIST } from '../utils/Dummy'
+
 import { AplProvider } from 'stories/utils'
 /* import QUERY from './graphql/query.graphql'
    import { Router } from 'stories/utils'
@@ -335,6 +337,16 @@ export const ExampleChoices = () => (
         ) }
         filterItems={ (items, value) => items.filter(e => e.name.match(new RegExp(value, 'gi'))) }
         //debug
+      />
+      <FormInput
+        context={ context }
+        type='downshift-multiple-combobox'
+        name='multifruit'
+        label='Please select the fruits to make a juice'
+        description='The more the merrier'
+        options={ LIST }
+        inputId='fruitjuice'
+        key='cbb'
       />
       <FormContextDebugger context={ context }/>
 

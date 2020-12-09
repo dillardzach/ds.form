@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 
 
 import DownshiftCombobox from './DownshiftCombobox.js'
+import DownshiftMultipleCombobox from './DownshiftMultipleCombobox.js'
+
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/client'
-
-import { InlineLoader } from 'ds-core'
 
 //Intl
 
@@ -16,9 +16,12 @@ import { InlineLoader } from 'ds-core'
    import messages from "./messages";
     <FormattedMessage {...messages.title} /> */
 
+import {FormattedMessage} from 'react-intl'
+import messages from './messages'
+
 //Config
 
-//import C from 'ui/cssClasses'
+import C from 'ui/cssClasses'
 
 /* Relative imports
    import styles from './query_downshift_combobox.scss' */
@@ -41,6 +44,9 @@ const QueryDownshiftCombobox = ({
   style,
 
   query,
+  multiple,
+
+  allowReload,
 
   ...otherProps
 }) => {
@@ -61,15 +67,14 @@ const QueryDownshiftCombobox = ({
   }, '')]) || [],
   [data, loading])
 
-
-  if (loading) return (
-    <InlineLoader/>
-
-
+  const Component = useMemo(() => multiple ?
+    DownshiftMultipleCombobox : DownshiftCombobox,
+  [multiple]
   )
 
-  else return (
-    <DownshiftCombobox
+
+  return (
+    <Component
       className={
         [
           //styles[baseClassName],
@@ -77,9 +82,21 @@ const QueryDownshiftCombobox = ({
           className
         ].filter(e => e).join(' ')
       }
+      loading={ loading }
       id={ id }
       style={ style }
       options={ finalData }
+      suffix={
+        allowReload &&
+        <a
+          onClick={() => refetch()}
+          className={ C.pointer }
+        >
+          <FormattedMessage {...messages.reload}/>
+          .
+        </a>
+
+      }
       { ...otherProps }
     />
   )}
@@ -106,6 +123,17 @@ QueryDownshiftCombobox.propTypes = {
    */
   query:PropTypes.string.isRequired,
 
+
+  /**
+   * Whether to allow multiple items selection
+   */
+  multiple:PropTypes.bool,
+
+  /**
+   * Whether to allow reload of the query
+   */
+  allowReload:PropTypes.bool
+
   /*
   : PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -118,11 +146,9 @@ QueryDownshiftCombobox.propTypes = {
   */
 }
 
-/*
 QueryDownshiftCombobox.defaultProps = {
-  status: 'neutral',
-  //height:'2.2em',
-  //as:'p',
+  multiple:false,
+  allowReload:true
 }
-*/
+
 export default QueryDownshiftCombobox

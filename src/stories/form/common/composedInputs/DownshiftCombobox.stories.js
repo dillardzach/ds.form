@@ -1,5 +1,6 @@
 /* @fwrlines/generator-storybook-story 1.3.0 */
 import React from 'react'
+import { useState } from 'react'
 
 //import { action } from '@storybook/addon-actions'
 
@@ -30,15 +31,25 @@ export default {
   ]
 }
 
-export const Default = () => (
-  <DownshiftCombobox
-    inputId='fruit'
-    label='Please select your favourite fruit'
-    options={ LIST }
-    description='Here is a list of very tasty fruits you can choose your favourite from'
-    aesthetic='mars'
-  />
-)
+export const Default = () => {
+  const [value, setValue] = useState()
+
+  return(
+    <>
+      <DownshiftCombobox
+        inputId='fruit'
+        label='Please select your favourite fruit'
+        options={ LIST }
+        description='Here is a list of very tasty fruits you can choose your favourite from'
+        aesthetic='mars'
+        value={ value }
+        setInputValue={ setValue }
+        debug
+      />
+      <p>{ value  }</p>
+    </>
+  )
+}
 
 export const Compact = () => (
   <DownshiftCombobox
@@ -51,18 +62,32 @@ export const Compact = () => (
   />
 )
 
-export const Dict = () => (
-  <DownshiftCombobox
-    inputId='fruit'
-    label='Please select your favourite fruit'
-    options={ LIST.map((e, i) => ({
-      label:e,
-      value:i
-    })) }
-    description='Here is a list of very tasty fruits you can choose your favourite from'
-    aesthetic='mars'
-  />
-)
+export const Dict = () => {
+  const [value, setValue] = useState()
+
+  return(
+    <>
+      <DownshiftCombobox
+        inputId='fruit'
+        label='Please select your favourite fruit'
+        options={ LIST.map((e, i) => ({
+          label:e,
+          value:`item-${i}`
+        })) }
+        description='Here is a list of very tasty fruits you can choose your favourite from'
+        aesthetic='mars'
+        itemToString={
+          (item) => {
+            return item ? item.value : ''
+
+          }}
+        value={ value }
+        setInputValue={ setValue }
+      />
+      <p>{ value  }</p>
+    </>
+  )
+}
 
 export const Loading = () => (
   <DownshiftCombobox
@@ -111,6 +136,7 @@ export const Debug = () => (
 
 export const Query = () => (
   <QueryDownshiftCombobox
+    compact
     query={QUERY}
     errors='Please select a better fruit'
     inputId='fruit'

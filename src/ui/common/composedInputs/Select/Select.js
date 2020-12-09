@@ -1,6 +1,6 @@
 /* @fwrlines/generator-react-component 1.5.0 */
 import * as React from 'react'
-import { memo } from 'react'
+import { useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { BaseHTMLSelect } from '../../baseInputs'
@@ -8,6 +8,8 @@ import { BaseHTMLSelect } from '../../baseInputs'
 import { InputHolder, InputInside } from '../../elements'
 
 import { comparisonFunction } from 'ui/utils'
+
+import { Button } from 'ds-core'
 /* Config
    import C from 'ui/cssClasses' */
 
@@ -26,7 +28,7 @@ const baseClassName = 'select'
  * Use `Select` to
  * Has color `x`
  */
-const Select = memo(({
+const Select = ({
   id,
   className,
   style,
@@ -80,6 +82,8 @@ const Select = memo(({
   onFocus,
 }) => {
 
+  const inputRef = useRef()
+
   const holderProps = {
     id,
     className:[
@@ -121,6 +125,22 @@ const Select = memo(({
 
     leftSide,
     rightSide,
+    /*
+    rightSide:( <Button
+      compact
+      className='x-subtitle c-x'
+      simple
+      icon='j'
+      aria-label={'toggle menu'}
+      onClick={ () => {
+        console.log(inputRef.current, inputRef.current.click, inputRef.current.focus, inputRef.current.focusTextInput)
+        inputRef.current.click()
+        inputRef.current.open()
+        inputRef.current.focus()
+        inputRef.current.focusTextInput()
+      } }
+                />
+    ),*/
     sidesClassName,
     sidesStyle,
 
@@ -147,7 +167,9 @@ const Select = memo(({
     value,
     onChange,
     onBlur,
-    onFocus
+    onFocus,
+
+    ref:inputRef
 
   }
 
@@ -163,9 +185,8 @@ const Select = memo(({
         />
       </InputInside>
     </InputHolder>
-  )},
-  comparisonFunction
-)
+  )
+}
 
 Select.propTypes = {
   /**
@@ -391,11 +412,11 @@ Select.propTypes = {
 Select.defaultProps = {
   /* multiple:false,
      other   :false, */
-  disabled :false,
-  compact  :false,
-  rightIcon:'j',
+  disabled:false,
+  compact :false,
+  //rightIcon:'j',
   /* height:'2.2em',
      as:'p', */
 }
 
-export default Select
+export default memo(Select, comparisonFunction)

@@ -19,6 +19,7 @@ import {
   DownshiftSelect,
   DownshiftCombobox,
   QueryDownshiftCombobox,
+  DownshiftMultipleCombobox,
   Dropzone
 } from '../common'
 
@@ -150,6 +151,19 @@ const FormInput = ({
     })
   )
 
+  else if ( type == 'downshift-multiple-combobox' ) return(
+    displayComponent(DownshiftMultipleCombobox, {
+      ...passedProps
+    })
+  )
+
+  else if ( type == 'query-multiple-downshift-combobox' ) return(
+    displayComponent(QueryDownshiftCombobox, {
+      ...passedProps,
+      multiple:true
+    })
+  )
+
   else if ( type == 'dropzone' ) return(
     displayComponent(Dropzone, {
       ...passedProps
@@ -191,9 +205,10 @@ FormInput.propTypes = {
     'card-radios',
     'svg-checkboxes',
     'svg-radios',
-    'query-downshift-combobox',
     'downshift-combobox',
+    'query-downshift-combobox',
     'downshift-select',
+    'downshift-multiple-combobox',
     'dropzone',
     'image-dropzone'
   ]

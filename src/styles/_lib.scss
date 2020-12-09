@@ -20,7 +20,7 @@ $form-variables-prefix:form !default;
     .inside {
       border: var(--form-border);
       border-radius: var(--form-border-radius);
-      overflow-x: hidden;
+      //overflow-x: hidden;
       transition: .3s border-color;
 
       * {
@@ -113,6 +113,7 @@ $form-variables-prefix:form !default;
 
   .#{$fc} textarea {
     resize: var(--form-textarea-resize);
+    white-space: pre-line;
   }
 
   .#{$fc} select option {
