@@ -245,7 +245,6 @@ const DownshiftSelect = ({
             id={ inputId }
             { ...otherToggleButtonProps }
             { ...buttonProps }
-            className='b-x c-on-x x-primary'
 
           >
             { (selectedItem && displaySelectedItem(selectedItem))
@@ -579,8 +578,10 @@ DownshiftSelect.propTypes = {
 }
 
 DownshiftSelect.defaultProps = {
-  buttonChildren      :'Select',
-  buttonProps         :{},
+  buttonChildren:'Select',
+  buttonProps   :{
+    className:'b-x c-on-x x-primary'
+  },
   //displayItem         :(i) => i,
   circularNavigation  :true,
   popupPreferredOrder :['bottom', 'right', 'top', 'left'],
