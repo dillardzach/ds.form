@@ -96,6 +96,7 @@ const DownshiftSelect = ({
   setInputTouched,
   touched,
   value,
+  simple,
   //...otherProps
 }) => {
 
@@ -228,7 +229,56 @@ const DownshiftSelect = ({
     labelAdditionalProps:getLabelProps(),
   }
 
-  return (
+  const DownshiftButton = (<Button
+    id={ inputId }
+    { ...otherToggleButtonProps }
+    { ...buttonProps }
+  >
+    { (selectedItem && displaySelectedItem(selectedItem))
+            || ( uncontrolledSelectedItem && displaySelectedItem(uncontrolledSelectedItem ))
+            || buttonChildren }
+    <Popup
+      className={ [
+        popupClassName,
+        'b-y y-background',
+      ].filter(e => e).join(' ')
+      }
+      id={ popupId }
+      //style={{ width: '200px', ...popupStyle }}
+      isVisible={ isOpen }
+      preferredOrder={ popupPreferredOrder }
+      style={ popupStyle }
+    >
+      <ul
+        {...getMenuProps()}
+        className='compact'
+      >
+        {
+          items.map((item, index) => (
+            <li
+              className={ [
+                itemClassName,
+                (highlightedIndex === index) && highlightedClassName
+              ].filter(e => e).join(' ')
+              }
+              style={ itemStyle }
+              key={`${item}${index}`}
+              {...getItemProps({ item, index })}
+            >
+              {
+                selectedItem === item ?
+                  displaySelectedItem(item) :
+                  displayItem(item)
+              }
+            </li>
+          ))}
+      </ul>
+    </Popup>
+                           </Button>)
+
+  if (simple) return DownshiftButton
+
+  else return (
     <Holder
       className={
         [
@@ -241,54 +291,7 @@ const DownshiftSelect = ({
     >
       <div className='yb'>
         <div className='yib xv'>
-          <Button
-            id={ inputId }
-            { ...otherToggleButtonProps }
-            { ...buttonProps }
-            className='b-x c-on-x x-primary'
-
-          >
-            { (selectedItem && displaySelectedItem(selectedItem))
-            || ( uncontrolledSelectedItem && displaySelectedItem(uncontrolledSelectedItem ))
-            || buttonChildren }
-            <Popup
-              className={ [
-                popupClassName,
-                'b-y y-background',
-              ].filter(e => e).join(' ')
-              }
-              id={ popupId }
-              //style={{ width: '200px', ...popupStyle }}
-              isVisible={ isOpen }
-              preferredOrder={ popupPreferredOrder }
-              style={ popupStyle }
-            >
-              <ul
-                {...getMenuProps()}
-                className='compact'
-              >
-                {
-                  items.map((item, index) => (
-                    <li
-                      className={ [
-                        itemClassName,
-                        (highlightedIndex === index) && highlightedClassName
-                      ].filter(e => e).join(' ')
-                      }
-                      style={ itemStyle }
-                      key={`${item}${index}`}
-                      {...getItemProps({ item, index })}
-                    >
-                      {
-                        selectedItem === item ?
-                          displaySelectedItem(item) :
-                          displayItem(item)
-                      }
-                    </li>
-                  ))}
-              </ul>
-            </Popup>
-          </Button>
+          { DownshiftButton }
         </div>
       </div>
     </Holder>
@@ -579,8 +582,10 @@ DownshiftSelect.propTypes = {
 }
 
 DownshiftSelect.defaultProps = {
-  buttonChildren      :'Select',
-  buttonProps         :{},
+  buttonChildren:'Select',
+  buttonProps   :{
+    className:'b-x c-on-x x-primary'
+  },
   //displayItem         :(i) => i,
   circularNavigation  :true,
   popupPreferredOrder :['bottom', 'right', 'top', 'left'],

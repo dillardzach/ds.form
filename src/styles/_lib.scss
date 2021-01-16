@@ -15,6 +15,7 @@ $form-variables-prefix:form !default;
 }
 @mixin form-style-general() {
   .#{$fc} {
+    padding: var(--form-fieldset-padding, 0);
     //font-size: calc(var(--t, 1) * 1em);
 
     .inside {
