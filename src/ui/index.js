@@ -1,7 +1,9 @@
 export {
   useForm,
+  useMultiForm,
   FormContext,
   FormContextProvider,
+  FormContextProvider as Form,
   FormContextDebugger,
 } from './FormContext'
 
